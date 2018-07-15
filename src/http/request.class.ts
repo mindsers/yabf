@@ -1,5 +1,5 @@
-import * as url from 'url'
 import * as querystring from 'querystring'
+import * as url from 'url'
 
 export class Request {
   get pathname(): string {
@@ -31,7 +31,7 @@ export class Request {
   get body() {
     let promise = this._body.promise
 
-    if (this._body.dataString.length > 0) {
+    if (this._body.dataString.length > 0 || promise == null) {
       promise = Promise.resolve(this._body.dataString)
     }
 
@@ -46,10 +46,10 @@ export class Request {
     return this.method === 'options' && 'access-control-request-method' in this.headers
   }
 
-  private _body: { data: any[], dataString: string, promise: Promise<any>|null } = {
+  private _body: { data: any[]; dataString: string; promise: Promise<any>|null } = {
     data: [],
     dataString: '',
-    promise: null
+    promise: null,
   }
 
   constructor(private httpRequest: any) {
@@ -58,7 +58,9 @@ export class Request {
         .on('error', (err: any) => { reject(err) })
         .on('data', (data: any) => { this._body.data.push(data) })
         .on('end', () => {
-          this._body.dataString = Buffer.concat(this._body.data).toString()
+          this._body.dataString = Buffer
+            .concat(this._body.data)
+            .toString()
 
           resolve(this._body.dataString)
         })

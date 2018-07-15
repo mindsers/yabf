@@ -9,11 +9,26 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "posttest": "rm -rf tests",
+    "test:unit": "ava tests/**/*.spec.js",
+    "test:lint": "tslint -p tsconfig.json -c tslint.json src/**/*.ts",
+    "test": "yarn test:lint && yarn test:unit",
+    "pretest": "yarn build:test",
+    "build:test": "tsc -p tsconfig.test.json",
     "build": "tsc",
     "prepublish": "yarn build"
   },
   "devDependencies": {
     "@types/node": "^10.5.2",
+    "ava": "^0.25.0",
+    "eslint": "^5.1.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.10.0",
     "typescript": "^2.9.2"
   }
 }

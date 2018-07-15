@@ -1,7 +1,7 @@
-import { HttpMethod } from './http-method.enum';
-import { IAction } from '../controller/action.interface';
+import { IAction } from '../controller/action.interface'
+import { HttpMethod } from './http-method.enum'
 
-export interface Route {
+export interface IRoute {
   path: string,
   action: string|IAction,
   methodes: HttpMethod[]

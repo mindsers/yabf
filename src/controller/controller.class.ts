@@ -1,7 +1,7 @@
-import { Route } from '../router/route.interface';
+import { IRoute } from '../router/route.interface'
 
 export class Controller {
-  get routes(): Route[] {
+  get routes(): IRoute[] {
     return []
   }
 }
