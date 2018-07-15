@@ -9,11 +9,18 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "posttest": "rm -rf tests",
+    "test:unit": "ava tests/**/*.spec.js",
+    "test": "yarn test:unit",
+    "pretest": "yarn build:test",
+    "build:test": "tsc -p tsconfig.test.json",
     "build": "tsc",
     "prepublish": "yarn build"
   },
   "devDependencies": {
     "@types/node": "^10.5.2",
+    "ava": "^0.25.0",
+    "ts-node": "^7.0.0",
     "typescript": "^2.9.2"
   }
 }
