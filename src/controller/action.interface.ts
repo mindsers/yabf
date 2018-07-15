@@ -1,6 +1,4 @@
-import { Response } from '../http/response.class';
-import { Request } from '../http/request.class';
+import { Request } from '../http/request.class'
+import { Response } from '../http/response.class'
 
-export interface IAction {
-  (request?: Request): any|Response
-}
+export type IAction = (request?: Request) => any|Response

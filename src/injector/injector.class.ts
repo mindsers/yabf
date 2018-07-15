@@ -1,12 +1,13 @@
-import { InjectionToken } from './injection-token.class';
+import { InjectionToken } from './injection-token.class'
 
 export class InjectorService {
-  private data: ProvidedData[] = []
+  static instances: any[] = []
 
-  public static instances: any[] = []
+  private data: IProvidedData[] = []
 
   static getMainInstance() {
-    const previousInstance = InjectorService.instances.find((instance: any) => instance.value instanceof InjectorService)
+    const previousInstance = InjectorService.instances
+      .find((instance: any) => instance.value instanceof InjectorService)
 
     if (previousInstance != null) {
       return previousInstance.value
@@ -36,21 +37,21 @@ export class InjectorService {
     data.singleton = singleton
 
     if (data.useValue == null) {
-      data.contructorParams = params.map<ProvidedData>((param: any) => {
+      data.contructorParams = params.map<IProvidedData>((param: any) => {
         if ('useValue' in param) {
           return {
-            identity: null,
-            useValue: param.useValue,
             contructorParams: [],
-            singleton: false
+            identity: null,
+            singleton: false,
+            useValue: param.useValue,
           }
         }
 
         return {
-          identity: param,
-          useClass: param,
           contructorParams: [],
-          singleton: false
+          identity: param,
+          singleton: false,
+          useClass: param,
         }
       })
     }
@@ -63,20 +64,20 @@ export class InjectorService {
       .instances
       .find((instance: any) =>
         identity instanceof InjectionToken && instance.identity === identity ||
-        !(identity instanceof InjectionToken) && instance.value instanceof identity
+        !(identity instanceof InjectionToken) && instance.value instanceof identity,
       )
 
     if (previousInstance != null) {
       return previousInstance.value
     }
 
-    const data = this.data.find((data: ProvidedData) => data.identity === identity)
+    const data = this.data.find((d: IProvidedData) => d.identity === identity)
 
     if (data != null) {
       let instance: any = null
 
       if (data.useClass != null) {
-        const Class = data.useClass
+        const Class = data.useClass // tslint:disable-line:variable-name
         const args = data.contructorParams.map((param: any) => {
           if (param.useClass != null) {
             return this.get(param.useClass)
@@ -104,13 +105,14 @@ export class InjectorService {
     }
 
     console.warn(`WARN: No data regitered with key : ${identity.constructor.name}`)
+
     return null
   }
 
-  private buildPovidedData(givenData: any): ProvidedData|null {
-    const data: ProvidedData = {
+  private buildPovidedData(givenData: any): IProvidedData|null {
+    const data: IProvidedData = {
       contructorParams: [],
-      singleton: true
+      singleton: true,
     }
 
     if (givenData instanceof Function) {
@@ -138,11 +140,10 @@ export class InjectorService {
   }
 }
 
-interface ProvidedData {
+interface IProvidedData {
   identity?: any
   useClass?: any
   useValue?: any
   contructorParams: any[]
   singleton: boolean
 }
-

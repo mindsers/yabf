@@ -1,6 +1,6 @@
-import { Route } from './route.interface';
-import { IAction } from '../controller/action.interface';
+import { IAction } from '../controller/action.interface'
+import { IRoute } from './route.interface'
 
-export interface ConsolidatedRoute extends Route {
+export interface IConsolidatedRoute extends IRoute {
   action: IAction
 }

@@ -1,11 +1,11 @@
+import { IAction } from '../controller/action.interface'
+import { IController } from '../controller/controller.interface'
+import { Request } from '../http/request.class'
 import { Response as ResponseHelper } from '../http/response.class'
-import { Request } from '../http/request.class';
-import { InjectorService } from '../injector/injector.class';
-import { IController } from '../controller/controller.interface';
-import { IAction } from '../controller/action.interface';
+import { InjectorService } from '../injector/injector.class'
 
-import { ConsolidatedRoute } from './consolidated-route.interface';
-import { HttpMethod } from './http-method.enum';
+import { IConsolidatedRoute } from './consolidated-route.interface'
+import { HttpMethod } from './http-method.enum'
 
 export class RouterService {
 
@@ -13,7 +13,7 @@ export class RouterService {
     return this._controllers.map(controllerName => this.injectorService.get(controllerName))
   }
 
-  get routes(): ConsolidatedRoute[] {
+  get routes(): IConsolidatedRoute[] {
     return this.controllers
       .map(controller => {
         return controller.routes
@@ -23,7 +23,7 @@ export class RouterService {
               route.action = action.bind(controller)
             }
 
-            return route as ConsolidatedRoute
+            return route as IConsolidatedRoute
           })
       })
       .reduce((routes, curr) => ([...routes, ...curr]), [])
@@ -31,10 +31,10 @@ export class RouterService {
   }
 
   private _controllers: any[] = []
-  private cors: { enabled: boolean, allowedOrigins: string[], allowedHeaders: string[] } = {
-    enabled: false,
+  private cors: { enabled: boolean; allowedOrigins: string[]; allowedHeaders: string[] } = {
+    allowedHeaders: [],
     allowedOrigins: [],
-    allowedHeaders: []
+    enabled: false,
   }
 
   constructor(private injectorService: InjectorService) {}
@@ -132,15 +132,15 @@ export class RouterService {
   private processCORSResponseHeaders(request: any): { [key: string]: string } {
     const headers: { [key: string]: string } = {}
 
-    headers['Access-Control-Allow-Origin'] = this.cors.allowedOrigins.includes(request.headers['origin'])
-      ? request.headers['origin']
+    headers['Access-Control-Allow-Origin'] = this.cors.allowedOrigins.includes(request.headers.origin)
+      ? request.headers.origin
       : null
     headers['Access-Control-Allow-Headers'] = this.cors.allowedHeaders.join(', ')
     headers['Access-Control-Allow-Methods'] = this.routes
       .filter(route => request.match(route.path))
       .map(route => route.methodes)
       .reduce((aggr, curr) => [...aggr, ...curr], [])
-      .reduce((aggr: Array<HttpMethod|null>, curr: HttpMethod) => [...aggr, !aggr.includes(curr) ? curr : null], [])
+      .reduce((aggr: (HttpMethod|null)[], curr: HttpMethod) => [...aggr, !aggr.includes(curr) ? curr : null], [])
       .filter(method => method != null)
       .join(', ')
       .toUpperCase()

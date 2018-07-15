@@ -34,7 +34,7 @@ export class Response {
     }
 
     if (this.getHeader('Content-Type') === 'application/octet-stream') {
-      httpResponse.write(new Buffer(this.data, 'binary'))
+      httpResponse.write(Buffer.from(this.data, 'binary'))
     }
 
     httpResponse.end()
@@ -42,8 +42,8 @@ export class Response {
 
   _getJSONBody() {
     const body: any = {
+      error: Math.floor(this.errorCode / 100) !== 2,
       errorCode: this.errorCode,
-      error: Math.floor(this.errorCode / 100) !== 2
     }
 
     if (this.description != null) {
