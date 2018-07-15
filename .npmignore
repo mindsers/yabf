@@ -1,1 +1,5 @@
 src/
+.editorconfig
+.gitignore
+tsconfig.json
+yarn.lock
