@@ -11,7 +11,8 @@
   "scripts": {
     "posttest": "rm -rf tests",
     "test:unit": "ava tests/**/*.spec.js",
-    "test": "yarn test:unit",
+    "test:lint": "tslint -c tslint.json src/**/*.ts",
+    "test": "yarn test:lint && yarn test:unit",
     "pretest": "yarn build:test",
     "build:test": "tsc -p tsconfig.test.json",
     "build": "tsc",
@@ -21,6 +22,7 @@
     "@types/node": "^10.5.2",
     "ava": "^0.25.0",
     "ts-node": "^7.0.0",
+    "tslint": "^5.10.0",
     "typescript": "^2.9.2"
   }
 }
