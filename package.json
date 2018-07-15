@@ -2,11 +2,16 @@
   "name": "yabf",
   "version": "1.0.0",
   "description": "Yet Another Basic Framework for NodeJS",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "git@github.com:Mindsers/yabf.git",
   "author": "Mindsers <dev@nathanaelcherrier.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+      "build": "tsc",
+      "prepublish": "npm run build"
+  },
   "devDependencies": {
     "@types/node": "^10.5.2",
     "typescript": "^2.9.2"
