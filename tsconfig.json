@@ -8,5 +8,12 @@
     "lib": [
       "es2017"
     ]
-  }
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
 }
