@@ -3,7 +3,9 @@ import { Request } from '../http/request.class';
 import { InjectorService } from '../injector/injector.class';
 import { IController } from '../controller/controller.interface';
 import { IAction } from '../controller/action.interface';
+
 import { ConsolidatedRoute } from './consolidated-route.interface';
+import { HttpMethod } from './http-method.enum';
 
 export class RouterService {
 
@@ -29,7 +31,7 @@ export class RouterService {
   }
 
   private _controllers: any[] = []
-  private cors = {
+  private cors: { enabled: boolean, allowedOrigins: string[], allowedHeaders: string[] } = {
     enabled: false,
     allowedOrigins: [],
     allowedHeaders: []
@@ -61,25 +63,25 @@ export class RouterService {
     this._controllers.push(controllerName)
   }
 
-  async httpServerMiddleware(request, response) {
+  async httpServerMiddleware(request: any, response: any) {
     const requestHelper = new Request(request)
 
     if (requestHelper.isCORS && this.cors.enabled) {
-      this._sendCORSResponse(response, requestHelper)
+      this.sendCORSResponse(response, requestHelper)
 
       return
     }
 
-    const responseHelper = await this._processResponse(requestHelper)
+    const responseHelper = await this.processResponse(requestHelper)
 
     if (this.cors.enabled) {
-      this._addCORSHeadersToResponse(responseHelper, requestHelper)
+      this.addCORSHeadersToResponse(responseHelper, requestHelper)
     }
 
     responseHelper.send(response)
   }
 
-  async _processResponse(request) {
+  private async processResponse(request: any) {
     let response = null
 
     for (const route of this.routes) {
@@ -107,18 +109,18 @@ export class RouterService {
     return response
   }
 
-  _sendCORSResponse(response, request) {
-    const headers = this._processCORSResponseHeaders(request)
+  private sendCORSResponse(response: any, request: any) {
+    const headers = this.processCORSResponseHeaders(request)
 
-    headers['Content-Length'] = 0
+    headers['Content-Length'] = '0'
     headers['Content-Type'] = 'text/plain'
 
     response.writeHead(200, headers)
     response.end()
   }
 
-  _addCORSHeadersToResponse(response, request) {
-    const headers = this._processCORSResponseHeaders(request)
+  private addCORSHeadersToResponse(response: any, request: any) {
+    const headers = this.processCORSResponseHeaders(request)
 
     for (const header of Object.keys(headers)) {
       response.setHeader(header, headers[header])
@@ -127,8 +129,8 @@ export class RouterService {
     return response
   }
 
-  _processCORSResponseHeaders(request) {
-    const headers = {}
+  private processCORSResponseHeaders(request: any): { [key: string]: string } {
+    const headers: { [key: string]: string } = {}
 
     headers['Access-Control-Allow-Origin'] = this.cors.allowedOrigins.includes(request.headers['origin'])
       ? request.headers['origin']
@@ -138,7 +140,7 @@ export class RouterService {
       .filter(route => request.match(route.path))
       .map(route => route.methodes)
       .reduce((aggr, curr) => [...aggr, ...curr], [])
-      .reduce((aggr, curr) => [...aggr, !aggr.includes(curr) ? curr : null], [])
+      .reduce((aggr: Array<HttpMethod|null>, curr: HttpMethod) => [...aggr, !aggr.includes(curr) ? curr : null], [])
       .filter(method => method != null)
       .join(', ')
       .toUpperCase()

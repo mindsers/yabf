@@ -31,7 +31,7 @@ export class Request {
   get body() {
     let promise = this._body.promise
 
-    if (this._body.dataString.length > 0) {
+    if (this._body.dataString.length > 0 || promise == null) {
       promise = Promise.resolve(this._body.dataString)
     }
 
