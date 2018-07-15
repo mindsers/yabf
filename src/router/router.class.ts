@@ -1,38 +1,43 @@
-import { Response as ResponseHelper } from './response'
-import { Request } from './request';
+import { Response as ResponseHelper } from '../http/response.class'
+import { Request } from '../http/request.class';
+import { InjectorService } from '../injector/injector.class';
+import { IController } from '../controller/controller.interface';
+import { IAction } from '../controller/action.interface';
+import { ConsolidatedRoute } from './consolidated-route.interface';
 
 export class RouterService {
 
-  get controllers() {
+  get controllers(): IController[] {
     return this._controllers.map(controllerName => this.injectorService.get(controllerName))
   }
 
-  get routes() {
+  get routes(): ConsolidatedRoute[] {
     return this.controllers
-      .map(controller => controller.routes
+      .map(controller => {
+        return controller.routes
           .map(route => {
-            if (route.action in controller) {
-              route.action = controller[route.action].bind(controller)
+            if (route.action in controller && typeof route.action === 'string') {
+              const action = controller[route.action] as IAction
+              route.action = action.bind(controller)
             }
 
-            return route
-          }))
+            return route as ConsolidatedRoute
+          })
+      })
       .reduce((routes, curr) => ([...routes, ...curr]), [])
       .filter(route => typeof route.action === 'function')
   }
 
-  constructor(injectorService) {
-    this.injectorService = injectorService
-    this._controllers = []
-
-    this.cors = {
-      enabled: false,
-      allowedOrigins: [],
-      allowedHeaders: []
-    }
+  private _controllers: any[] = []
+  private cors = {
+    enabled: false,
+    allowedOrigins: [],
+    allowedHeaders: []
   }
 
-  enableCORS(origins, headers) {
+  constructor(private injectorService: InjectorService) {}
+
+  enableCORS(origins: any[], headers: any[]) {
     this.cors.enabled = true
     this.cors.allowedHeaders = headers
     this.cors.allowedOrigins = origins
@@ -44,11 +49,11 @@ export class RouterService {
     this.cors.allowedHeaders = []
   }
 
-  isRegistered(controllerName) {
+  isRegistered(controllerName: any) {
     return this._controllers.includes(controllerName)
   }
 
-  register(controllerName) {
+  register(controllerName: any) {
     if (controllerName == null || typeof controllerName !== 'function') {
       return
     }

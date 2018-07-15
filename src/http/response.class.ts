@@ -9,22 +9,24 @@ export class Response {
     this.setHeader('Content-Type', value)
   }
 
-  constructor(data, errorCode = 200, description = null) {
+  private headers: any
+
+  constructor(public data: any, public errorCode = 200, public description: string|null = null) {
     this.errorCode = errorCode
     this.data = data
     this.description = description
     this.headers = { 'Content-Type': 'application/json' }
   }
 
-  setHeader(key, value) {
+  setHeader(key: any, value: any) {
     this.headers[key] = value
   }
 
-  getHeader(key) {
+  getHeader(key: any) {
     return this.headers[key]
   }
 
-  send(httpResponse) {
+  send(httpResponse: any) {
     httpResponse.writeHead(this.errorCode, this.headers)
 
     if (this.getHeader('Content-Type') === 'application/json') {
@@ -39,7 +41,7 @@ export class Response {
   }
 
   _getJSONBody() {
-    const body = {
+    const body: any = {
       errorCode: this.errorCode,
       error: Math.floor(this.errorCode / 100) !== 2
     }

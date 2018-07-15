@@ -9,8 +9,8 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-      "build": "tsc",
-      "prepublish": "npm run build"
+    "build": "tsc",
+    "prepublish": "yarn build"
   },
   "devDependencies": {
     "@types/node": "^10.5.2",

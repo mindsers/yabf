@@ -1,10 +1,12 @@
+import { InjectionToken } from './injection-token.class';
+
 export class InjectorService {
-  constructor() {
-    this.data = []
-  }
+  private data: ProvidedData[] = []
+
+  public static instances: any[] = []
 
   static getMainInstance() {
-    const previousInstance = InjectorService.instances.find(instance => instance.value instanceof InjectorService)
+    const previousInstance = InjectorService.instances.find((instance: any) => instance.value instanceof InjectorService)
 
     if (previousInstance != null) {
       return previousInstance.value
@@ -16,8 +18,8 @@ export class InjectorService {
     return injector.get(InjectorService)
   }
 
-  provide(givenData, params = [], singleton = true) {
-    const data = this._buildPovidedData(givenData)
+  provide(givenData: any, params = [], singleton = true) {
+    const data = this.buildPovidedData(givenData)
 
     if (data == null || (data.useClass == null && data.useValue == null)) {
       return
@@ -34,17 +36,21 @@ export class InjectorService {
     data.singleton = singleton
 
     if (data.useValue == null) {
-      data.contructorParams = params.map(param => {
-        if (param.useValue != null) {
+      data.contructorParams = params.map<ProvidedData>((param: any) => {
+        if ('useValue' in param) {
           return {
             identity: null,
-            useValue: param.useValue
+            useValue: param.useValue,
+            contructorParams: [],
+            singleton: false
           }
         }
 
         return {
           identity: param,
-          useClass: param
+          useClass: param,
+          contructorParams: [],
+          singleton: false
         }
       })
     }
@@ -52,10 +58,10 @@ export class InjectorService {
     this.data.push(data)
   }
 
-  get(identity) {
+  get(identity: any) {
     const previousInstance = InjectorService
       .instances
-      .find(instance =>
+      .find((instance: any) =>
         identity instanceof InjectionToken && instance.identity === identity ||
         !(identity instanceof InjectionToken) && instance.value instanceof identity
       )
@@ -64,14 +70,14 @@ export class InjectorService {
       return previousInstance.value
     }
 
-    const data = this.data.find(data => data.identity === identity)
+    const data = this.data.find((data: ProvidedData) => data.identity === identity)
 
     if (data != null) {
-      let instance = null
+      let instance: any = null
 
       if (data.useClass != null) {
         const Class = data.useClass
-        const args = data.contructorParams.map(param => {
+        const args = data.contructorParams.map((param: any) => {
           if (param.useClass != null) {
             return this.get(param.useClass)
           }
@@ -101,8 +107,11 @@ export class InjectorService {
     return null
   }
 
-  _buildPovidedData(givenData) {
-    const data = {}
+  private buildPovidedData(givenData: any): ProvidedData|null {
+    const data: ProvidedData = {
+      contructorParams: [],
+      singleton: true
+    }
 
     if (givenData instanceof Function) {
       data.identity = givenData
@@ -125,13 +134,15 @@ export class InjectorService {
       return null
     }
 
-    data.contructorParams = []
-    data.singleton = true
-
     return data
   }
 }
 
-InjectorService.instances = []
+interface ProvidedData {
+  identity?: any
+  useClass?: any
+  useValue?: any
+  contructorParams: any[]
+  singleton: boolean
+}
 
-export class InjectionToken {}
