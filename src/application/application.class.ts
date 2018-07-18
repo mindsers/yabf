@@ -1,6 +1,10 @@
 import * as http from 'http'
 
+import { Controller } from '../controller/controller.class'
+import { InjectionClass } from '../injector/injection-class.interface'
+import { InjectionSelector } from '../injector/injection-selector.type'
 import { InjectionToken } from '../injector/injection-token.class'
+import { InjectionType } from '../injector/injection-type.interface'
 import { InjectorService } from '../injector/injector.class'
 import { RouterService } from '../router/router.class'
 
@@ -12,18 +16,37 @@ export class Application {
     private routerService: RouterService,
   ) {}
 
-  provide(className: any, options = []) {
-    this.injectorService.provide(className, options)
+  static fromInjectorScope(): Application {
+    const injector = InjectorService.getMainInstance()
+    const app = injector.get(Application)
+
+    if (app != null) {
+      return app
+    }
+
+    injector.provide(Application, [InjectorService, RouterService])
+    injector.provide(RouterService, [InjectorService])
+
+    return injector.get(Application) as Application
   }
 
-  declare(className: any, options = []) {
-    for (const option of options) {
-      if (this.routerService.isRegistered(option)) {
-        throw new ControllerInControllerError(option, className)
+  provide<C>(className: InjectionType<C>): void
+  provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
+  provide<C>(className: InjectionClass<C>|InjectionType<C>, dependencies?: InjectionSelector<any>[]): void {
+    this.injectorService.provide(className as InjectionClass<C>, dependencies)
+  }
+
+  declare<C extends Controller>(
+    className: InjectionClass<C>|InjectionType<C>,
+    dependencies: InjectionSelector<any>[] = [],
+  ) {
+    for (const dependency of dependencies) {
+      if (this.routerService.isRegistered(dependency)) {
+        throw new ControllerInControllerError(dependency as InjectionClass<any>, className as InjectionClass<any>)
       }
     }
 
-    this.injectorService.provide(className, options, false)
+    this.injectorService.provide(className as InjectionClass<C>, dependencies, false)
     this.routerService.register(className)
   }
 
@@ -79,4 +102,4 @@ export class Application {
   }
 }
 
-export const APP_CONFIG = new InjectionToken()
+export const APP_CONFIG = new InjectionToken<any>()

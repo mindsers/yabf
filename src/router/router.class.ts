@@ -2,6 +2,7 @@ import { IAction } from '../controller/action.interface'
 import { IController } from '../controller/controller.interface'
 import { Request } from '../http/request.class'
 import { Response as ResponseHelper } from '../http/response.class'
+import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectorService } from '../injector/injector.class'
 
 import { IConsolidatedRoute } from './consolidated-route.interface'
@@ -10,7 +11,9 @@ import { HttpMethod } from './http-method.enum'
 export class RouterService {
 
   get controllers(): IController[] {
-    return this._controllers.map(controllerName => this.injectorService.get(controllerName))
+    return this._controllers
+      .map(controllerName => this.injectorService.get(controllerName))
+      .filter(controller => controller != null) as IController[]
   }
 
   get routes(): IConsolidatedRoute[] {
@@ -30,7 +33,7 @@ export class RouterService {
       .filter(route => typeof route.action === 'function')
   }
 
-  private _controllers: any[] = []
+  private _controllers: InjectionClass<IController>[] = []
   private cors: { enabled: boolean; allowedOrigins: string[]; allowedHeaders: string[] } = {
     allowedHeaders: [],
     allowedOrigins: [],
