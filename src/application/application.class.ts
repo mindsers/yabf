@@ -1,14 +1,15 @@
 import * as http from 'http'
 
-import { InjectorService } from './injector/injector.class'
-import { InjectionToken } from "./injector/injection-token.class";
-import { RouterService } from './router/router.class'
-import { Controller } from './controller/controller.class'
+import { InjectionToken } from '../injector/injection-token.class'
+import { InjectorService } from '../injector/injector.class'
+import { RouterService } from '../router/router.class'
+
+import { ControllerInControllerError } from './controller-in-controller-error.class'
 
 export class Application {
   constructor(
     private injectorService: InjectorService,
-    private routerService: RouterService
+    private routerService: RouterService,
   ) {}
 
   provide(className: any, options = []) {
@@ -36,10 +37,13 @@ export class Application {
     http
       .createServer((request, response) => {
         this.routerService.httpServerMiddleware(request, response)
+          .catch(error => {
+            console.warn(error)
+          })
       })
       .listen(config.port)
 
-    console.log(`Listen on 127.0.0.1:${config.port}`)
+    console.info(`Listen on 127.0.0.1:${config.port}`)
   }
 
   private getConfiguration() {
@@ -72,12 +76,6 @@ export class Application {
     }
 
     return config
-  }
-}
-
-class ControllerInControllerError extends Error {
-  constructor(controller: Controller, parentController: Controller) {
-    super(`Provide a controller to an other controller is forbidden. (${controller} into ${parentController})`)
   }
 }
 
