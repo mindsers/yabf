@@ -13,6 +13,20 @@ export class Application {
     private routerService: RouterService,
   ) {}
 
+  static fromInjectorScope(): Application {
+    const injector = InjectorService.getMainInstance()
+    const app = injector.get(Application)
+
+    if (app != null) {
+      return app
+    }
+
+    injector.provide(Application, [InjectorService, RouterService])
+    injector.provide(RouterService, [InjectorService])
+
+    return injector.get(Application) as Application
+  }
+
   provide<C>(className: InjectionType<C>): void
   provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<C>[]): void
   provide<C>(className: InjectionClass<C>|InjectionType<C>, dependencies?: InjectionSelector<C>[]): void {
