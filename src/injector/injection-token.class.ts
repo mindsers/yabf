@@ -1,1 +1,1 @@
-export class InjectionToken {}
+export class InjectionToken<T> {}

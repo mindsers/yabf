@@ -2,6 +2,7 @@ import * as http from 'http'
 
 import { InjectionToken } from '../injector/injection-token.class'
 import { InjectorService } from '../injector/injector.class'
+import { InjectionClass, InjectionSelector, InjectionType } from '../injector/type.interface'
 import { RouterService } from '../router/router.class'
 
 import { ControllerInControllerError } from './controller-in-controller-error.class'
@@ -12,8 +13,10 @@ export class Application {
     private routerService: RouterService,
   ) {}
 
-  provide(className: any, options = []) {
-    this.injectorService.provide(className, options)
+  provide<C>(className: InjectionType<C>): void
+  provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<C>[]): void
+  provide<C>(className: InjectionClass<C>|InjectionType<C>, dependencies?: InjectionSelector<C>[]): void {
+    this.injectorService.provide(className as InjectionClass<C>, dependencies)
   }
 
   declare(className: any, options = []) {
@@ -79,4 +82,4 @@ export class Application {
   }
 }
 
-export const APP_CONFIG = new InjectionToken()
+export const APP_CONFIG = new InjectionToken<any>()

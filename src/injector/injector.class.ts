@@ -1,11 +1,12 @@
 import { InjectionToken } from './injection-token.class'
+import { InjectionClass, InjectionSelector, InjectionType } from './type.interface'
 
 export class InjectorService {
   static instances: any[] = []
 
   private data: IProvidedData[] = []
 
-  static getMainInstance() {
+  static getMainInstance(): InjectorService {
     const previousInstance = InjectorService.instances
       .find((instance: any) => instance.value instanceof InjectorService)
 
@@ -16,10 +17,12 @@ export class InjectorService {
     const injector = new InjectorService()
     injector.provide({ identity: InjectorService, useValue: injector })
 
-    return injector.get(InjectorService)
+    return injector.get(InjectorService) as InjectorService
   }
 
-  provide(givenData: any, params = [], singleton = true) {
+  provide<C>(givenData: InjectionType<C>): void
+  provide<C>(givenData: InjectionClass<C>, params?: InjectionSelector<any>[], singleton?: boolean): void
+  provide<C>(givenData: InjectionClass<C>|InjectionType<C>, params: InjectionSelector<any>[] = [], singleton = true) {
     const data = this.buildPovidedData(givenData)
 
     if (data == null || (data.useClass == null && data.useValue == null)) {
@@ -37,15 +40,15 @@ export class InjectorService {
     data.singleton = singleton
 
     if (data.useValue == null) {
-      data.contructorParams = params.map<IProvidedData>((param: any) => {
-        if ('useValue' in param) {
-          return {
-            contructorParams: [],
-            identity: null,
-            singleton: false,
-            useValue: param.useValue,
-          }
-        }
+      data.contructorParams = params.map<IProvidedData>(param => {
+        // if ('useValue' in param) {
+        //   return {
+        //     contructorParams: [],
+        //     identity: null,
+        //     singleton: false,
+        //     useValue: param.useValue,
+        //   }
+        // }
 
         return {
           contructorParams: [],
@@ -59,7 +62,7 @@ export class InjectorService {
     this.data.push(data)
   }
 
-  get(identity: any) {
+  get<C>(identity: InjectionClass<C>|InjectionToken<C>): C|null {
     const previousInstance = InjectorService
       .instances
       .find((instance: any) =>
