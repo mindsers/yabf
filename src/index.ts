@@ -1,5 +1,5 @@
+import { Application } from './application/application.class'
 import { InjectorService } from './injector/injector.class'
-import { Application } from './application.class'
 import { RouterService } from './router/router.class'
 
 (() => {
@@ -9,7 +9,7 @@ import { RouterService } from './router/router.class'
     injector.provide(RouterService, [InjectorService])
 })()
 
-export * from './application.class'
+export * from './application/application.class'
 export * from './controller/controller.class'
 export * from './injector/injector.class'
 export * from './injector/injection-token.class'
