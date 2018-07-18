@@ -1,8 +1,10 @@
 import * as http from 'http'
 
+import { InjectionClass } from '../injector/injection-class.interface'
+import { InjectionSelector } from '../injector/injection-selector.type'
 import { InjectionToken } from '../injector/injection-token.class'
+import { InjectionType } from '../injector/injection-type.interface'
 import { InjectorService } from '../injector/injector.class'
-import { InjectionClass, InjectionSelector, InjectionType } from '../injector/type.interface'
 import { RouterService } from '../router/router.class'
 
 import { ControllerInControllerError } from './controller-in-controller-error.class'

@@ -1,5 +1,7 @@
+import { InjectionClass } from './injection-class.interface'
+import { InjectionSelector } from './injection-selector.type'
 import { InjectionToken } from './injection-token.class'
-import { InjectionClass, InjectionSelector, InjectionType } from './type.interface'
+import { InjectionType } from './injection-type.interface'
 
 export class InjectorService {
   static instances: any[] = []
