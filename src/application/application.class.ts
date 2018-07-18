@@ -1,5 +1,6 @@
 import * as http from 'http'
 
+import { Controller } from '../controller/controller.class'
 import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectionSelector } from '../injector/injection-selector.type'
 import { InjectionToken } from '../injector/injection-token.class'
@@ -30,19 +31,22 @@ export class Application {
   }
 
   provide<C>(className: InjectionType<C>): void
-  provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<C>[]): void
-  provide<C>(className: InjectionClass<C>|InjectionType<C>, dependencies?: InjectionSelector<C>[]): void {
+  provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
+  provide<C>(className: InjectionClass<C>|InjectionType<C>, dependencies?: InjectionSelector<any>[]): void {
     this.injectorService.provide(className as InjectionClass<C>, dependencies)
   }
 
-  declare(className: any, options = []) {
-    for (const option of options) {
-      if (this.routerService.isRegistered(option)) {
-        throw new ControllerInControllerError(option, className)
+  declare<C extends Controller>(
+    className: InjectionClass<C>|InjectionType<C>,
+    dependencies: InjectionSelector<any>[] = [],
+  ) {
+    for (const dependency of dependencies) {
+      if (this.routerService.isRegistered(dependency)) {
+        throw new ControllerInControllerError(dependency as InjectionClass<any>, className as InjectionClass<any>)
       }
     }
 
-    this.injectorService.provide(className, options, false)
+    this.injectorService.provide(className as InjectionClass<C>, dependencies, false)
     this.routerService.register(className)
   }
 
