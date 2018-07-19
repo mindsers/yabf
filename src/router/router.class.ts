@@ -42,7 +42,7 @@ export class RouterService {
 
   constructor(private injectorService: InjectorService) {}
 
-  enableCORS(origins: any[], headers: any[]) {
+  enableCORS(origins: string[], headers: string[] = []) {
     this.cors.enabled = true
     this.cors.allowedHeaders = headers
     this.cors.allowedOrigins = origins
