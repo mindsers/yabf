@@ -36,13 +36,13 @@ export class Application {
     this.injectorService.provide(className as InjectionClass<C>, dependencies)
   }
 
-  declare<C extends Controller>(
-    className: InjectionClass<C>|InjectionType<C>,
-    dependencies: InjectionSelector<any>[] = [],
-  ) {
+  declare<C extends Controller>(className: InjectionClass<C>, dependencies: InjectionSelector<any>[] = []) {
     for (const dependency of dependencies) {
-      if (this.routerService.isRegistered(dependency)) {
-        throw new ControllerInControllerError(dependency as InjectionClass<any>, className as InjectionClass<any>)
+      if (this.routerService.isRegistered(dependency as InjectionClass<Controller>)) {
+        throw new ControllerInControllerError(
+          dependency as InjectionClass<Controller>,
+          className as InjectionClass<Controller>,
+        )
       }
     }
 
@@ -50,7 +50,7 @@ export class Application {
     this.routerService.register(className)
   }
 
-  start() {
+  start(): void {
     const config = this.getConfiguration()
 
     if (config.cors) {

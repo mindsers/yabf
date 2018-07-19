@@ -1,6 +1,8 @@
+import { IncomingMessage as HttpRequest, ServerResponse as HttpResponse } from 'http'
+
 import { IAction } from '../controller/action.interface'
 import { IController } from '../controller/controller.interface'
-import { Request } from '../http/request.class'
+import { Request as RequestHelper } from '../http/request.class'
 import { Response as ResponseHelper } from '../http/response.class'
 import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectorService } from '../injector/injector.class'
@@ -42,23 +44,23 @@ export class RouterService {
 
   constructor(private injectorService: InjectorService) {}
 
-  enableCORS(origins: string[], headers: string[] = []) {
+  enableCORS(origins: string[], headers: string[] = []): void {
     this.cors.enabled = true
     this.cors.allowedHeaders = headers
     this.cors.allowedOrigins = origins
   }
 
-  disableCORS() {
+  disableCORS(): void {
     this.cors.enabled = false
     this.cors.allowedOrigins = []
     this.cors.allowedHeaders = []
   }
 
-  isRegistered(controllerName: any) {
+  isRegistered(controllerName: InjectionClass<IController>): boolean {
     return this._controllers.includes(controllerName)
   }
 
-  register(controllerName: any) {
+  register(controllerName: InjectionClass<IController>): void {
     if (controllerName == null || typeof controllerName !== 'function') {
       return
     }
@@ -66,8 +68,8 @@ export class RouterService {
     this._controllers.push(controllerName)
   }
 
-  async httpServerMiddleware(request: any, response: any) {
-    const requestHelper = new Request(request)
+  async httpServerMiddleware(request: HttpRequest, response: HttpResponse): Promise<void> {
+    const requestHelper = new RequestHelper(request)
 
     if (requestHelper.isCORS && this.cors.enabled) {
       this.sendCORSResponse(response, requestHelper)
@@ -84,7 +86,7 @@ export class RouterService {
     responseHelper.send(response)
   }
 
-  private async processResponse(request: any) {
+  private async processResponse(request: RequestHelper): Promise<ResponseHelper> {
     let response = null
 
     for (const route of this.routes) {
@@ -112,7 +114,7 @@ export class RouterService {
     return response
   }
 
-  private sendCORSResponse(response: any, request: any) {
+  private sendCORSResponse(response: HttpResponse, request: RequestHelper): void {
     const headers = this.processCORSResponseHeaders(request)
 
     headers['Content-Length'] = '0'
@@ -122,7 +124,7 @@ export class RouterService {
     response.end()
   }
 
-  private addCORSHeadersToResponse(response: any, request: any) {
+  private addCORSHeadersToResponse(response: ResponseHelper, request: RequestHelper): ResponseHelper {
     const headers = this.processCORSResponseHeaders(request)
 
     for (const header of Object.keys(headers)) {
@@ -132,7 +134,7 @@ export class RouterService {
     return response
   }
 
-  private processCORSResponseHeaders(request: any): { [key: string]: string } {
+  private processCORSResponseHeaders(request: RequestHelper): { [key: string]: string } {
     const headers: { [key: string]: string } = {}
 
     headers['Access-Control-Allow-Origin'] = this.cors.allowedOrigins.includes(request.headers.origin)
