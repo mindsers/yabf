@@ -1,6 +1,8 @@
 import * as querystring from 'querystring'
 import * as url from 'url'
 
+import { HttpMethod } from './http-method.enum'
+
 export class Request {
   get pathname(): string {
     const value = url.parse(this.httpRequest.url).pathname
@@ -16,7 +18,7 @@ export class Request {
     return querystring.parse(url.parse(this.httpRequest.url).query || '')
   }
 
-  get method() {
+  get method(): HttpMethod {
     return this.httpRequest.method.toLowerCase()
   }
 
@@ -28,22 +30,22 @@ export class Request {
     return this.httpRequest.hash
   }
 
-  get body() {
+  get body(): any {
     let promise = this._body.promise
 
     if (this._body.dataString.length > 0 || promise == null) {
       promise = Promise.resolve(this._body.dataString)
     }
 
-    return promise.then((body: any) => {
+    return promise.then((body: string) => {
       if (this.httpRequest.headers['content-length'] > 0) {
         return this.parseBody(body)
       }
     })
   }
 
-  get isCORS() {
-    return this.method === 'options' && 'access-control-request-method' in this.headers
+  get isCORS(): boolean {
+    return this.method === HttpMethod.OPTIONS && 'access-control-request-method' in this.headers
   }
 
   private _body: { data: any[]; dataString: string; promise: Promise<any>|null } = {
@@ -67,7 +69,7 @@ export class Request {
     })
   }
 
-  match(pattern: any) {
+  match(pattern: string): boolean {
     const patternParts = pattern.split('/')
     const pathParts = this.pathname.split('/')
 
@@ -84,7 +86,7 @@ export class Request {
     return true
   }
 
-  private parseBody(body: any) {
+  private parseBody(body: string): any {
     if (this.headers['content-type'].includes('application/json')) {
       return JSON.parse(body)
     }

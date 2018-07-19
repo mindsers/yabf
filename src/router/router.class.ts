@@ -2,13 +2,13 @@ import { IncomingMessage as HttpRequest, ServerResponse as HttpResponse } from '
 
 import { IAction } from '../controller/action.interface'
 import { IController } from '../controller/controller.interface'
+import { HttpMethod } from '../http/http-method.enum'
 import { Request as RequestHelper } from '../http/request.class'
 import { Response as ResponseHelper } from '../http/response.class'
 import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectorService } from '../injector/injector.class'
 
 import { IConsolidatedRoute } from './consolidated-route.interface'
-import { HttpMethod } from './http-method.enum'
 
 export class RouterService {
 
