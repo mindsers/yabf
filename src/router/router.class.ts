@@ -137,15 +137,16 @@ export class RouterService {
   private processCORSResponseHeaders(request: RequestHelper): { [key: string]: string } {
     const headers: { [key: string]: string } = {}
 
-    headers['Access-Control-Allow-Origin'] = this.cors.allowedOrigins.includes(request.headers.origin)
-      ? request.headers.origin
-      : null
+    if (request.headers.origin != null && this.cors.allowedOrigins.includes(request.headers.origin as string)) {
+      headers['Access-Control-Allow-Origin'] = request.headers.origin as string
+    }
+
     headers['Access-Control-Allow-Headers'] = this.cors.allowedHeaders.join(', ')
     headers['Access-Control-Allow-Methods'] = this.routes
       .filter(route => request.match(route.path))
       .map(route => route.methodes)
       .reduce((aggr, curr) => [...aggr, ...curr], [])
-      .reduce((aggr: (HttpMethod|null)[], curr: HttpMethod) => [...aggr, !aggr.includes(curr) ? curr : null], [])
+      .reduce((aggr: (HttpMethod | null)[], curr: HttpMethod) => [...aggr, !aggr.includes(curr) ? curr : null], [])
       .filter(method => method != null)
       .join(', ')
       .toUpperCase()
