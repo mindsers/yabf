@@ -42,6 +42,8 @@ import { MainController } from './controllers/mail-controller'
 })()
 ```
 
+Why using `Application.createInstance()` instead of `new Application()` ? When you provide services or declare controllers you use the *Yabf* dependency injector. All the *Yabf* services also use this dependency injector. So, `Application` need to provide other internal services before your start to using it.
+
 You can ask *Yabf* to inject dependencies into your controllers or services. However, controllers **can't be injected** in other controllers.
 
 ```ts
