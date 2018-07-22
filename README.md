@@ -6,9 +6,9 @@
 
 **Yet Another Basic Framework** for NodeJS.
 
-It is a learning experience: I wouldn't use expressjs as usual but learn how to make/code dependency injection, routing, http requests, and other development patterns/paradigms/concepts by myself.
+It is a learning experience: I wouldn't use [expressjs](https://expressjs.com) as usual but learn how to make/code dependency injection, routing, http requests, and other development patterns/paradigms/concepts by myself.
 
-It can be use as a base for server projects. Of course so much things are missing and you will have to develop it yourself or create an issue in this repo.
+It can be use as a base for server projects. Of course so much things are missing and you will have to develop it yourself or create an [issue in this repo](https://github.com/Mindsers/yabf/issues).
 
 *Yabf* work either with JavaScript and TypeScript projects.
 
