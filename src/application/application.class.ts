@@ -16,7 +16,7 @@ export class Application {
     private routerService: RouterService,
   ) {}
 
-  static fromInjectorScope(): Application {
+  static createInstance(): Application {
     const injector = InjectorService.getMainInstance()
     const app = injector.get(Application)
 

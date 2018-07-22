@@ -16,7 +16,7 @@
     "pretest": "yarn build:test",
     "build:test": "tsc -p tsconfig.test.json",
     "build": "tsc",
-    "prepublish": "yarn build"
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
     "@types/node": "^10.5.2",
@@ -30,5 +30,8 @@
     "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
     "typescript": "^2.9.2"
+  },
+  "engines": {
+    "yarn": "^1.0.0"
   }
 }
