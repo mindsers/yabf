@@ -1,6 +1,11 @@
 import { IRoute } from '../router/route.interface'
 
-export class Controller {
+import { IAction } from './action.interface'
+import { IController } from './controller.interface'
+
+export class Controller implements IController {
+  [action: string]: IAction | IRoute[]
+
   get routes(): IRoute[] {
     return []
   }

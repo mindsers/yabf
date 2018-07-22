@@ -3,11 +3,11 @@ import * as http from 'http'
 import { Controller } from '../controller/controller.class'
 import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectionSelector } from '../injector/injection-selector.type'
-import { InjectionToken } from '../injector/injection-token.class'
 import { InjectionType } from '../injector/injection-type.interface'
 import { InjectorService } from '../injector/injector.class'
 import { RouterService } from '../router/router.class'
 
+import { APP_CONFIG, IAppConfig } from './app-config.interface'
 import { ControllerInControllerError } from './controller-in-controller-error.class'
 
 export class Application {
@@ -36,13 +36,13 @@ export class Application {
     this.injectorService.provide(className as InjectionClass<C>, dependencies)
   }
 
-  declare<C extends Controller>(
-    className: InjectionClass<C>|InjectionType<C>,
-    dependencies: InjectionSelector<any>[] = [],
-  ) {
+  declare<C extends Controller>(className: InjectionClass<C>, dependencies: InjectionSelector<any>[] = []) {
     for (const dependency of dependencies) {
-      if (this.routerService.isRegistered(dependency)) {
-        throw new ControllerInControllerError(dependency as InjectionClass<any>, className as InjectionClass<any>)
+      if (this.routerService.isRegistered(dependency as InjectionClass<Controller>)) {
+        throw new ControllerInControllerError(
+          dependency as InjectionClass<Controller>,
+          className as InjectionClass<Controller>,
+        )
       }
     }
 
@@ -50,11 +50,11 @@ export class Application {
     this.routerService.register(className)
   }
 
-  start() {
+  start(): void {
     const config = this.getConfiguration()
 
     if (config.cors) {
-      this.routerService.enableCORS(config.corsOrigins, config.corsHeaders)
+      this.routerService.enableCORS(config.cors.origins, config.cors.headers)
     }
 
     http
@@ -64,42 +64,53 @@ export class Application {
             console.warn(error)
           })
       })
-      .listen(config.port)
+      .listen(config.server.port)
 
-    console.info(`Listen on 127.0.0.1:${config.port}`)
+    console.info(`Listen on 127.0.0.1:${config.server.port}`)
   }
 
-  private getConfiguration() {
-    const config = this.injectorService.get(APP_CONFIG) == null
-      ? {}
-      : this.injectorService.get(APP_CONFIG)
+  private getConfiguration(): IAppConfig {
+    let config = this.injectorService.get(APP_CONFIG)
 
-    if (config.port == null || typeof config.port !== 'number') {
-      config.port = 8080
+    if (config == null) {
+      config = {
+        server: {
+          port: 8080,
+        },
+      }
     }
 
-    if (config.defaultLocale == null) {
-      config.defaultLocale = 'en'
+    if (typeof config.server.port !== 'number') {
+      config.server.port = 8080
     }
 
-    if (config.locales == null || !Array.isArray(config.port)) {
-      config.locales = ['en']
+    if (config.locales == null) {
+      config.locales = {}
     }
 
-    if (config.cors == null || typeof config.cors !== 'boolean') {
-      config.cors = true
+    if (config.locales.list == null || !Array.isArray(config.locales.list)) {
+      config.locales.list = ['en']
     }
 
-    if (config.corsHeaders == null || !Array.isArray(config.corsHeaders)) {
-      config.corsHeaders = []
+    if (config.locales.default == null || config.locales.default === '') {
+      config.locales.default = config.locales.list[0]
     }
 
-    if (config.corsOrigins == null || !Array.isArray(config.corsOrigins)) {
-      config.corsOrigins = []
+    if (config.cors == null) {
+      config.cors = {
+        activated: false,
+        origins: [],
+      }
+    }
+
+    if (config.cors.headers == null || !Array.isArray(config.cors.headers)) {
+      config.cors.headers = []
+    }
+
+    if (config.cors.origins == null || !Array.isArray(config.cors.origins)) {
+      config.cors.origins = []
     }
 
     return config
   }
 }
-
-export const APP_CONFIG = new InjectionToken<any>()
