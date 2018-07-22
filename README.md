@@ -33,7 +33,7 @@ import { MailService } from './services/mail-service'
 import { MainController } from './controllers/mail-controller'
 
 (function main() {
-  const app = Application.fromInjectorScope()
+  const app = Application.createInstance()
 
   app.provide(MailService)
   app.declare(MainController)
