@@ -16,7 +16,7 @@
     "pretest": "yarn build:test",
     "build:test": "tsc -p tsconfig.test.json",
     "build": "tsc",
-    "prepublish": "yarn build"
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
     "@types/node": "^10.5.2",
