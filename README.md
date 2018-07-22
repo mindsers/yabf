@@ -49,6 +49,8 @@ app.provide(MailService)
 app.declare(MainController, [MailService])
 ```
 
+For more details, please refer to the [wiki](https://github.com/Mindsers/yabf/wiki) or [docs files](https://github.com/Mindsers/yabf/tree/master/docs).
+
 ## Support
 
 *Yabf* is licensed under an MIT license, which means that it's completely free open source software. Unfortunately, *Yabf* doesn't make it itself. Which will result in many late, beer-filled nights of development for me.
