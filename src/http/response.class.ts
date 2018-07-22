@@ -1,36 +1,32 @@
 import { Buffer } from 'buffer'
+import { ServerResponse as HttpResponse } from 'http'
 
 export class Response {
-  get contentType() {
+  get contentType(): string {
     return this.getHeader('Content-Type')
   }
 
-  set contentType(value) {
+  set contentType(value: string) {
     this.setHeader('Content-Type', value)
   }
 
-  private headers: any
+  private headers: { [key: string]: string } = { 'Content-Type': 'application/json' }
 
-  constructor(public data: any, public errorCode = 200, public description: string|null = null) {
-    this.errorCode = errorCode
-    this.data = data
-    this.description = description
-    this.headers = { 'Content-Type': 'application/json' }
-  }
+  constructor(public data: any, public errorCode = 200, public description: string|null = null) {}
 
-  setHeader(key: any, value: any) {
+  setHeader(key: string, value: string): void {
     this.headers[key] = value
   }
 
-  getHeader(key: any) {
+  getHeader(key: string): string {
     return this.headers[key]
   }
 
-  send(httpResponse: any) {
+  send(httpResponse: HttpResponse): void {
     httpResponse.writeHead(this.errorCode, this.headers)
 
     if (this.getHeader('Content-Type') === 'application/json') {
-      httpResponse.write(this._getJSONBody())
+      httpResponse.write(this.getJSONBody())
     }
 
     if (this.getHeader('Content-Type') === 'application/octet-stream') {
@@ -40,7 +36,7 @@ export class Response {
     httpResponse.end()
   }
 
-  _getJSONBody() {
+  private getJSONBody(): string {
     const body: any = {
       error: Math.floor(this.errorCode / 100) !== 2,
       errorCode: this.errorCode,

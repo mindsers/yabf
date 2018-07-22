@@ -1,25 +1,30 @@
+import { InjectionClass } from './injection-class.interface'
+import { InjectionSelector } from './injection-selector.type'
 import { InjectionToken } from './injection-token.class'
+import { InjectionType } from './injection-type.interface'
 
 export class InjectorService {
-  static instances: any[] = []
+  static instances: InjectorInstance<any>[] = []
 
-  private data: IProvidedData[] = []
+  private data: InjectionData[] = []
 
-  static getMainInstance() {
-    const previousInstance = InjectorService.instances
-      .find((instance: any) => instance.value instanceof InjectorService)
+  static getMainInstance(): InjectorService {
+    const existingInstance = InjectorService.instances
+      .find(instance => instance.value instanceof InjectorService)
 
-    if (previousInstance != null) {
-      return previousInstance.value
+    if (existingInstance != null) {
+      return existingInstance.value as InjectorService
     }
 
     const injector = new InjectorService()
     injector.provide({ identity: InjectorService, useValue: injector })
 
-    return injector.get(InjectorService)
+    return injector.get(InjectorService) as InjectorService
   }
 
-  provide(givenData: any, params = [], singleton = true) {
+  provide<C>(givenData: InjectionType<C>): void
+  provide<C>(givenData: InjectionClass<C>, params?: InjectionSelector<any>[], singleton?: boolean): void
+  provide<C>(givenData: InjectionClass<C>|InjectionType<C>, params: InjectionSelector<any>[] = [], singleton = true) {
     const data = this.buildPovidedData(givenData)
 
     if (data == null || (data.useClass == null && data.useValue == null)) {
@@ -35,115 +40,109 @@ export class InjectorService {
     }
 
     data.singleton = singleton
-
-    if (data.useValue == null) {
-      data.contructorParams = params.map<IProvidedData>((param: any) => {
-        if ('useValue' in param) {
-          return {
-            contructorParams: [],
-            identity: null,
-            singleton: false,
-            useValue: param.useValue,
-          }
-        }
-
-        return {
-          contructorParams: [],
-          identity: param,
-          singleton: false,
-          useClass: param,
-        }
-      })
-    }
+    data.constructorParams = data.useValue == null ? params : []
 
     this.data.push(data)
   }
 
-  get(identity: any) {
-    const previousInstance = InjectorService
-      .instances
-      .find((instance: any) =>
-        identity instanceof InjectionToken && instance.identity === identity ||
-        !(identity instanceof InjectionToken) && instance.value instanceof identity,
-      )
+  get<C>(identity: InjectionSelector<C>): C | null {
+    const existingInstance = InjectorService.instances.find(i => {
+      const useClass = !(identity instanceof InjectionToken) && i.value instanceof identity
+      const useToken = identity instanceof InjectionToken && i.identity === identity
 
-    if (previousInstance != null) {
-      return previousInstance.value
+      return useToken || useClass
+    })
+
+    if (existingInstance != null) {
+      return existingInstance.value as C
     }
 
-    const data = this.data.find((d: IProvidedData) => d.identity === identity)
-
-    if (data != null) {
-      let instance: any = null
-
-      if (data.useClass != null) {
-        const Class = data.useClass // tslint:disable-line:variable-name
-        const args = data.contructorParams.map((param: any) => {
-          if (param.useClass != null) {
-            return this.get(param.useClass)
-          }
-
-          return param.useValue
-        })
-
-        instance = {}
-        instance.identity = data.identity
-        instance.value = new Class(...args)
-      }
-
-      if (data.useValue != null) {
-        instance = {}
-        instance.identity = data.identity
-        instance.value = data.useValue
-      }
-
-      if (data.singleton === true) {
-        InjectorService.instances.push(instance)
-      }
-
-      return instance.value
-    }
-
-    console.warn(`WARN: No data regitered with key : ${identity.constructor.name}`)
-
-    return null
+    return this.buildInstance(identity)
   }
 
-  private buildPovidedData(givenData: any): IProvidedData|null {
-    const data: IProvidedData = {
-      contructorParams: [],
+  private buildInstance<C>(identity: InjectionSelector<C>): C | null {
+    const data = this.data.find(d => d.identity === identity)
+
+    if (data == null) {
+      console.warn(`WARN: No data regitered with key : ${identity.constructor.name}`)
+
+      return null
+    }
+
+    const instance = this.buildInstanceFromData<C>(data)
+
+    if (data.singleton === true) {
+      InjectorService.instances.push(instance)
+    }
+
+    return instance.value as C
+  }
+
+  private buildInstanceFromData<C>(data: InjectionData): InjectorInstance<C> {
+    let instance: InjectorInstance<C> | null = null
+
+    if (data.useClass != null) {
+      const Class = data.useClass // tslint:disable-line:variable-name
+      const args = data.constructorParams.map(param => this.get(param))
+
+      instance = {
+        identity: data.identity,
+        value: new Class(...args),
+      }
+    }
+
+    if (data.useValue != null) {
+      instance = {
+        identity: data.identity,
+        value: data.useValue,
+      }
+    }
+
+    return instance as InjectorInstance<C>
+  }
+
+  private buildPovidedData<C>(givenData: InjectionClass<C>|InjectionType<C>): InjectionData|null {
+    const defaultProps = {
+      constructorParams: [],
       singleton: true,
     }
 
     if (givenData instanceof Function) {
-      data.identity = givenData
-      data.useClass = givenData
+      return {
+        identity: givenData,
+        useClass: givenData,
+        ...defaultProps,
+      }
     }
 
-    if ('identity' in givenData && !('identity' in data)) {
-      data.identity = givenData.identity
+    if ('identity' in givenData) {
+      if ('useClass' in givenData && !('useValue' in givenData)) {
+        return {
+          identity: givenData.identity,
+          useClass: givenData.useClass,
+          ...defaultProps,
+        }
+      }
+
+      if ('useValue' in givenData && !('useClass' in givenData)) {
+        return {
+          identity: givenData.identity,
+          useValue: givenData.useValue,
+          ...defaultProps,
+        }
+      }
     }
 
-    if ('useClass' in givenData && !('useValue' in givenData)) {
-      data.useClass = givenData.useClass
-    }
-
-    if ('useValue' in givenData && !('useClass' in givenData)) {
-      data.useValue = givenData.useValue
-    }
-
-    if (data.identity == null && (data.useClass == null || data.useValue == null)) {
-      return null
-    }
-
-    return data
+    return null
   }
 }
 
-interface IProvidedData {
-  identity?: any
-  useClass?: any
-  useValue?: any
-  contructorParams: any[]
+interface InjectionData extends InjectionType<any> {
+  constructorParams: InjectionSelector<any>[]
   singleton: boolean
+}
+
+interface InjectorInstance<I> {
+  identity: InjectionSelector<I>
+  value: any
 }

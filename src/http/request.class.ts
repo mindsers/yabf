@@ -1,49 +1,70 @@
-import * as querystring from 'querystring'
-import * as url from 'url'
+import { IncomingHttpHeaders as HttpHeaders, IncomingMessage as HttpRequest } from 'http'
+import { parse as parseQuery, ParsedUrlQuery } from 'querystring'
+import { parse as parseUrl } from 'url'
+
+import { HttpMethod } from './http-method.enum'
 
 export class Request {
-  get pathname(): string {
-    const value = url.parse(this.httpRequest.url).pathname
+  get pathname(): string | undefined {
+    const { url = '' } = this.httpRequest
 
-    if (value == null) {
-      return ''
+    return parseUrl(url).pathname
+  }
+
+  get querystring(): ParsedUrlQuery {
+    const url = this.httpRequest.url
+    if (url == null) {
+      return {}
     }
 
-    return value
+    const query = parseUrl(url).query
+    if (query == null) {
+      return {}
+    }
+
+    return parseQuery(query)
   }
 
-  get querystring() {
-    return querystring.parse(url.parse(this.httpRequest.url).query || '')
+  get method(): HttpMethod {
+    const method = this.httpRequest.method
+    if (method == null) {
+      return HttpMethod.GET
+    }
+
+    return method.toLowerCase() as HttpMethod
   }
 
-  get method() {
-    return this.httpRequest.method.toLowerCase()
-  }
-
-  get headers() {
+  get headers(): HttpHeaders {
     return this.httpRequest.headers
   }
 
-  get anchor() {
-    return this.httpRequest.hash
+  get anchor(): string | undefined {
+    const url = this.httpRequest.url
+    if (url == null) {
+      return
+    }
+
+    return parseUrl(url).hash
   }
 
-  get body() {
+  get body(): Promise<any> {
     let promise = this._body.promise
 
     if (this._body.dataString.length > 0 || promise == null) {
       promise = Promise.resolve(this._body.dataString)
     }
 
-    return promise.then((body: any) => {
-      if (this.httpRequest.headers['content-length'] > 0) {
+    return promise.then((body: string): any | undefined => {
+      const contentLength = Number(this.httpRequest.headers['content-length'] || '0')
+
+      if (contentLength > 0) {
         return this.parseBody(body)
       }
     })
   }
 
-  get isCORS() {
-    return this.method === 'options' && 'access-control-request-method' in this.headers
+  get isCORS(): boolean {
+    return this.method === HttpMethod.OPTIONS && 'access-control-request-method' in this.headers
   }
 
   private _body: { data: any[]; dataString: string; promise: Promise<any>|null } = {
@@ -52,7 +73,7 @@ export class Request {
     promise: null,
   }
 
-  constructor(private httpRequest: any) {
+  constructor(private httpRequest: HttpRequest) {
     this._body.promise = new Promise((resolve: any, reject: any) => {
       this.httpRequest
         .on('error', (err: any) => { reject(err) })
@@ -67,9 +88,9 @@ export class Request {
     })
   }
 
-  match(pattern: any) {
+  match(pattern: string): boolean {
     const patternParts = pattern.split('/')
-    const pathParts = this.pathname.split('/')
+    const pathParts = (this.pathname || '').split('/')
 
     if (patternParts.length !== pathParts.length) {
       return false
@@ -84,8 +105,10 @@ export class Request {
     return true
   }
 
-  private parseBody(body: any) {
-    if (this.headers['content-type'].includes('application/json')) {
+  private parseBody(body: string): any {
+    const contentType = this.headers['content-type']
+
+    if (contentType != null && contentType.includes('application/json')) {
       return JSON.parse(body)
     }
 
