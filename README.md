@@ -49,7 +49,11 @@ app.provide(MailService)
 app.declare(MainController, [MailService])
 ```
 
-For more details, please refer to the [wiki](https://github.com/Mindsers/yabf/wiki) or [docs files](https://github.com/Mindsers/yabf/tree/master/docs).
+For more details, please refer to the [wiki](https://github.com/Mindsers/yabf/wiki) or [docs files](https://github.com/Mindsers/yabf/tree/develop/docs).
+
+## Contribution
+
+Contributions to the source code of *Yabf* are welcomed and greatly appreciated. For help on how to contribute in this project, please refer to [How to contribute to *Yabf*](https://github.com/Mindsers/yabf/blob/develop/CONTRIBUTING.md).
 
 ## Support
 
