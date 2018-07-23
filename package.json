@@ -1,6 +1,6 @@
 {
   "name": "yabf",
-  "version": "1.0.0",
+  "version": "1.0.0-rc.1",
   "description": "Yet Another Basic Framework for NodeJS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
