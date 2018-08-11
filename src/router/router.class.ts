@@ -1,7 +1,7 @@
 import { IncomingMessage as HttpRequest, ServerResponse as HttpResponse } from 'http'
 
 import { IAction } from '../controller/action.interface'
-import { IController } from '../controller/controller.interface'
+import { Controller } from '../controller/controller.class'
 import { HttpMethod } from '../http/http-method.enum'
 import { Request as RequestHelper } from '../http/request.class'
 import { Response as ResponseHelper } from '../http/response.class'
@@ -12,10 +12,10 @@ import { IConsolidatedRoute } from './consolidated-route.interface'
 
 export class RouterService {
 
-  get controllers(): IController[] {
+  get controllers(): Controller[] {
     return this._controllers
       .map(controllerName => this.injectorService.get(controllerName))
-      .filter(controller => controller != null) as IController[]
+      .filter(controller => controller != null) as Controller[]
   }
 
   get routes(): IConsolidatedRoute[] {
@@ -24,7 +24,7 @@ export class RouterService {
         return controller.routes
           .map(route => {
             if (route.action in controller && typeof route.action === 'string') {
-              const action = controller[route.action] as IAction
+              const action: IAction = controller[route.action]
               route.action = action.bind(controller)
             }
 
@@ -35,7 +35,7 @@ export class RouterService {
       .filter(route => typeof route.action === 'function')
   }
 
-  private _controllers: InjectionClass<IController>[] = []
+  private _controllers: InjectionClass<Controller>[] = []
   private cors: { enabled: boolean; allowedOrigins: string[]; allowedHeaders: string[] } = {
     allowedHeaders: [],
     allowedOrigins: [],
@@ -56,11 +56,11 @@ export class RouterService {
     this.cors.allowedHeaders = []
   }
 
-  isRegistered(controllerName: InjectionClass<IController>): boolean {
+  isRegistered(controllerName: InjectionClass<Controller>): boolean {
     return this._controllers.includes(controllerName)
   }
 
-  register(controllerName: InjectionClass<IController>): void {
+  register(controllerName: InjectionClass<Controller>): void {
     if (controllerName == null || typeof controllerName !== 'function') {
       return
     }
