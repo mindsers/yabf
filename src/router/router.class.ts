@@ -24,7 +24,7 @@ export class RouterService {
         return controller.routes
           .map(route => {
             if (route.action in controller && typeof route.action === 'string') {
-              const action = controller[route.action] as IAction
+              const action: IAction = controller[route.action]
               route.action = action.bind(controller)
             }
 
