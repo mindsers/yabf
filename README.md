@@ -63,7 +63,13 @@ Contributions to the source code of *Yabf* are welcomed and greatly appreciated.
 
 *Yabf* is licensed under an MIT license, which means that it's completely free open source software. Unfortunately, *Yabf* doesn't make it itself. Which will result in many late, beer-filled nights of development for me.
 
-If you're using *Yabf* and want to support the development, please refer to this [post](https://blog.nathanaelcherrier.com/about-me/).
+If you're using *Yabf* and want to support the development, you now have the chance! Go on my [Patreon page](https://www.patreon.com/mindsers) and become my joyful patron!!
+
+[![Become a Patron!](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/bePatron?u=9715649)
+
+For help on how to support *Yabf*, please refer to [The awesome people who support *Yabf*](https://github.com/Mindsers/yabf/blob/develop/SPONSORS.md).
+
+<!-- ### Premium sponsors -->
 
 ## License
 
