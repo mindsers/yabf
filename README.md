@@ -4,6 +4,7 @@
 [![npm](https://img.shields.io/npm/dt/yabf.svg?style=flat-square)](https://www.npmjs.com/package/yabf)
 [![npm](https://img.shields.io/npm/l/yabf.svg?style=flat-square)](https://github.com/Mindsers/yabf/blob/master/LICENSE)
 [![Patreon](https://img.shields.io/badge/support-patreon-F96854.svg?logo=patreon&style=flat-square)](https://www.patreon.com/bePatron?u=9715649)
+[![Discord](https://img.shields.io/badge/chat-discord-7289DA.svg?logo=discord&logoColor=7289DA&style=flat-square)](https://discord.gg/AtKK45B)
 
 **Yet Another Basic Framework** for NodeJS.
 
