@@ -10,23 +10,23 @@ import { APP_CONFIG, IAppConfig } from './app-config.interface'
 import { BaseApplication } from './application.abstract'
 import { ControllerInControllerError } from './controller-in-controller-error.class'
 
-export class Application extends BaseApplication {
+export class WebApplication extends BaseApplication {
   constructor(injectorService: InjectorService, private routerService: RouterService) {
     super(injectorService)
   }
 
-  static createInstance(): Application {
+  static createInstance(): WebApplication {
     const injector = InjectorService.getMainInstance()
-    const app = injector.get(Application)
+    const app = injector.get(WebApplication)
 
     if (app != null) {
       return app
     }
 
-    injector.provide(Application, [InjectorService, RouterService])
+    injector.provide(WebApplication, [InjectorService, RouterService])
     injector.provide(RouterService, [InjectorService])
 
-    return injector.get(Application) as Application
+    return injector.get(WebApplication) as WebApplication
   }
 
   declare<C extends Controller>(className: InjectionClass<C>, dependencies: InjectionSelector<any>[] = []) {
