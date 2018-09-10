@@ -1,6 +1,6 @@
 export * from './application/application.class'
 export * from './application/app-config.interface'
-export * from './application/base-application.abstract'
+export * from './application/application.abstract'
 
 export * from './controller/controller.class'
 
