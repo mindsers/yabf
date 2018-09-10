@@ -47,7 +47,7 @@ import { MainController } from './controllers/mail-controller'
 Why using `WebApplication.createInstance()` instead of `new WebApplication()` ? When you provide services or declare controllers you use the *Yabf* dependency injector. All the *Yabf* services also use this dependency injector. So, `WebApplication` need to provide other internal services before your start to using it.
 
 You can ask *Yabf* to inject dependencies into your controllers or services. However, controllers **can't be injected** in other controllers.
-
+z
 ```ts
 app.provide(MailService)
 app.declare(MainController, [MailService])

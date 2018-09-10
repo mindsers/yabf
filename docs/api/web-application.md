@@ -6,6 +6,8 @@ class WebApplication extends Application {
 
   static createInstance(): WebApplication
 
+  provide<C>(className: InjectionType<C>): void
+  provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
   declare<C extends Controller>(className: InjectionClass<C>, dependencies: InjectionSelector<any>[] = [])
   start(): void
 }
@@ -24,3 +26,46 @@ Initialize `ferpection` instance.
 ```ts
 constructor(injectorService: InjectorService, routerService: RouterService)
 ```
+
+### Parameters
+
+- `injectorService`: the service that have the responsibility to create and inject objects.
+- `routerService`: the service that have the responsibility to resolve routes and call right controllers.
+
+## Methods
+## # provide()
+
+Register a class `C` in the application to be used (created and injected) later.
+
+```ts
+provide<C>(className: InjectionType<C>): void
+provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
+```
+
+### Parameters
+
+- `className`: the class that will be registred. Typically a constructor (`Class`) or a configuration object (`{ identity: Class, useClass: Class }`).
+- `dependencies`: An array of constructor that wil be injected in the future instance.
+
+### Returns
+
+This method return nothing. `void`
+
+## # declare()
+
+Register a controller inside of the application. Work as provide method but registered classes are not in singleton pattern.
+
+```ts
+declare<C extends Controller>(className: InjectionClass<C>, dependencies: InjectionSelector<any>[] = [])
+```
+
+### Parameters
+
+- `className`: the class that will be registred. Typically a constructor (`Class`) or a configuration object (`{ identity: Class, useClass: Class }`).
+- `dependencies`: An array of constructor that wil be injected in the future instance.
+
+### Returns
+
+
+## # start()
+## # createInstance()
