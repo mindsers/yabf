@@ -6,7 +6,6 @@ abstract class Application {
 
   provide<C>(className: InjectionType<C>): void
   provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
-  provide<C>(className: InjectionClass<C>|InjectionType<C>, dependencies?: InjectionSelector<any>[]): void
 
   abstract start(): void
 }
@@ -41,7 +40,6 @@ Register a class `C` in the application to be used (created and injected) later.
 ```ts
 provide<C>(className: InjectionType<C>): void
 provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
-provide<C>(className: InjectionClass<C>|InjectionType<C>, dependencies?: InjectionSelector<any>[]): void
 ```
 
 ### Parameters
