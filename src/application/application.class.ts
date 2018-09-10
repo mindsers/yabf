@@ -3,18 +3,17 @@ import * as http from 'http'
 import { Controller } from '../controller/controller.class'
 import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectionSelector } from '../injector/injection-selector.type'
-import { InjectionType } from '../injector/injection-type.interface'
 import { InjectorService } from '../injector/injector.class'
 import { RouterService } from '../router/router.class'
 
 import { APP_CONFIG, IAppConfig } from './app-config.interface'
+import { BaseApplication } from './application.abstract'
 import { ControllerInControllerError } from './controller-in-controller-error.class'
 
-export class Application {
-  constructor(
-    private injectorService: InjectorService,
-    private routerService: RouterService,
-  ) {}
+export class Application extends BaseApplication {
+  constructor(injectorService: InjectorService, private routerService: RouterService) {
+    super(injectorService)
+  }
 
   static createInstance(): Application {
     const injector = InjectorService.getMainInstance()
@@ -28,12 +27,6 @@ export class Application {
     injector.provide(RouterService, [InjectorService])
 
     return injector.get(Application) as Application
-  }
-
-  provide<C>(className: InjectionType<C>): void
-  provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
-  provide<C>(className: InjectionClass<C>|InjectionType<C>, dependencies?: InjectionSelector<any>[]): void {
-    this.injectorService.provide(className as InjectionClass<C>, dependencies)
   }
 
   declare<C extends Controller>(className: InjectionClass<C>, dependencies: InjectionSelector<any>[] = []) {
