@@ -6,9 +6,13 @@ import { InjectorService } from '../injector/injector.class'
 export abstract class BaseApplication {
   constructor(private injectorService: InjectorService) {}
 
+  abstract createInstance(): BaseApplication
+
   provide<C>(className: InjectionType<C>): void
   provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
   provide<C>(className: InjectionClass<C>|InjectionType<C>, dependencies?: InjectionSelector<any>[]): void {
     this.injectorService.provide(className as InjectionClass<C>, dependencies)
   }
+
+  abstract start(): void
 }
