@@ -7,10 +7,10 @@ import { InjectorService } from '../injector/injector.class'
 import { RouterService } from '../router/router.class'
 
 import { APP_CONFIG, IAppConfig } from './app-config.interface'
-import { BaseApplication } from './application.abstract'
+import { Application } from './application.abstract'
 import { ControllerInControllerError } from './controller-in-controller-error.class'
 
-export class WebApplication extends BaseApplication {
+export class WebApplication extends Application {
   constructor(injectorService: InjectorService, private routerService: RouterService) {
     super(injectorService)
   }

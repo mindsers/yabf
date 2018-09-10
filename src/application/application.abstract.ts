@@ -3,7 +3,7 @@ import { InjectionSelector } from '../injector/injection-selector.type'
 import { InjectionType } from '../injector/injection-type.interface'
 import { InjectorService } from '../injector/injector.class'
 
-export abstract class BaseApplication {
+export abstract class Application {
   constructor(protected injectorService: InjectorService) {}
 
   provide<C>(className: InjectionType<C>): void
