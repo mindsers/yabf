@@ -13,7 +13,7 @@ class WebApplication extends Application {
 }
 ```
 
-The `WebApplication` class extends [`Application` abstract class](application).
+The `WebApplication` class extends [`Application` abstract class](./application.md).
 
 ## Description
 
