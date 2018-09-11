@@ -6,7 +6,7 @@ The truth is that every child of `Application` should have one. We want to ensur
 
 So to reach our goal (Ensure that all application work mostly the same way), we manually check if a child implements the `createInstance` method. Due to its manual characteristic, this check have specific aspects:
 
-- The warning is throwned only ar runtime
+- The warning is throwned only at runtime
 - The check occurs only if you implements the Application's child class
 
 ## How to implements `creacteInstance`
