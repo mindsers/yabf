@@ -81,3 +81,17 @@ No parameters.
 `void`: This method return nothing.
 
 ## # createInstance()
+
+Static factory method which is responsible to create a new instance of `WebApplication` if no one is found in the dependency injector scope. If an instance already exist, it will be returned.
+
+```ts
+static createInstance(): WebApplication
+```
+
+### Parameters
+
+No parameters.
+
+### Returns
+
+`WebApplication`: New or existing instance of `WebApplication`.
