@@ -49,7 +49,7 @@ provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]
 
 ### Returns
 
-This method return nothing. `void`
+`void`: This method return nothing.
 
 ## # declare()
 
@@ -66,6 +66,18 @@ declare<C extends Controller>(className: InjectionClass<C>, dependencies: Inject
 
 ### Returns
 
+`void`: This method return nothing.
 
 ## # start()
+
+Launch the application. This method acts like a classical `main` function.
+
+### Paramters
+
+No parameters.
+
+### Returns
+
+`void`: This method return nothing.
+
 ## # createInstance()
