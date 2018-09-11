@@ -1,10 +1,10 @@
+import { IDependencyInjectionProvider } from '../injector/dependency-injector.interface'
 import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectionSelector } from '../injector/injection-selector.type'
 import { InjectionType } from '../injector/injection-type.interface'
-import { InjectorService } from '../injector/injector.class'
 
 export abstract class Application {
-  constructor(protected injectorService: InjectorService) {
+  constructor(protected injectorService: IDependencyInjectionProvider) {
     const constructor = this.constructor as { createInstance?: any; name: string }
 
     if (constructor.createInstance == null || typeof constructor.createInstance !== 'function') {
