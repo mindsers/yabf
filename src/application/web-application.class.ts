@@ -3,37 +3,30 @@ import * as http from 'http'
 import { Controller } from '../controller/controller.class'
 import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectionSelector } from '../injector/injection-selector.type'
-import { InjectionType } from '../injector/injection-type.interface'
 import { InjectorService } from '../injector/injector.class'
 import { RouterService } from '../router/router.class'
 
 import { APP_CONFIG, IAppConfig } from './app-config.interface'
+import { Application } from './application.abstract'
 import { ControllerInControllerError } from './controller-in-controller-error.class'
 
-export class Application {
-  constructor(
-    private injectorService: InjectorService,
-    private routerService: RouterService,
-  ) {}
+export class WebApplication extends Application {
+  constructor(injectorService: InjectorService, private routerService: RouterService) {
+    super(injectorService)
+  }
 
-  static createInstance(): Application {
+  static createInstance(): WebApplication {
     const injector = InjectorService.getMainInstance()
-    const app = injector.get(Application)
+    const app = injector.get(WebApplication)
 
     if (app != null) {
       return app
     }
 
-    injector.provide(Application, [InjectorService, RouterService])
+    injector.provide(WebApplication, [InjectorService, RouterService])
     injector.provide(RouterService, [InjectorService])
 
-    return injector.get(Application) as Application
-  }
-
-  provide<C>(className: InjectionType<C>): void
-  provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
-  provide<C>(className: InjectionClass<C>|InjectionType<C>, dependencies?: InjectionSelector<any>[]): void {
-    this.injectorService.provide(className as InjectionClass<C>, dependencies)
+    return injector.get(WebApplication) as WebApplication
   }
 
   declare<C extends Controller>(className: InjectionClass<C>, dependencies: InjectionSelector<any>[] = []) {
