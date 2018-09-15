@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - New `abstract` class `Application` to allow core extension. (new type of application)
 - Add `SPONSORS.md` and a `README.md` section to thanks people who contribute to Yabf
+- Add `CHANGELOG.md` to log changes more easy and clearly than `git log`.
 
 ### Changed
 - `Application` is now `WebApplication`
