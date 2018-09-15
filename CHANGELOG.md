@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `CHANGELOG.md` to log changes more easy and clearly than `git log`.
 
 ### Changed
-- `Application` is now `WebApplication`.`
+- `Application` is now `WebApplication`. Using `Application` is deprecated.
 - `AbstractApplication` children can use tiers dependency injector.
 
 ### Fixed
