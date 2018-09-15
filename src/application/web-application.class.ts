@@ -6,11 +6,11 @@ import { InjectionSelector } from '../injector/injection-selector.type'
 import { InjectorService } from '../injector/injector.class'
 import { RouterService } from '../router/router.class'
 
+import { AbstractApplication } from './abstract-application.class'
 import { APP_CONFIG, IAppConfig } from './app-config.interface'
-import { Application } from './application.class'
 import { ControllerInControllerError } from './controller-in-controller-error.class'
 
-export class WebApplication extends Application {
+export class WebApplication extends AbstractApplication {
   constructor(injectorService: InjectorService, private routerService: RouterService) {
     super(injectorService)
   }

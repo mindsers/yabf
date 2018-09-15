@@ -1,8 +1,8 @@
 # Application's children should implements createInstance method
 
-According to the API documentation `Applcation` haven't `createInstance` method. So, why can we get a "The static factory method "createInstance" haven't been created in class *C*. This behavior will be depracated and removed in future version." ?
+According to the API documentation `AbstractApplication` haven't `createInstance` method. So, why can we get a "The static factory method "createInstance" haven't been created in class *C*. This behavior will be depracated and removed in future version." ?
 
-The truth is that every child of `Application` should have one. We want to ensure that all application work mostly the same way and provide stability in Yabf API. Due to TypeScript limitation, we can't add `createInstance` static method as an abstract in `Application`.
+The truth is that every child of `AbstractApplication` should have one. We want to ensure that all application work mostly the same way and provide stability in Yabf API. Due to TypeScript limitation, we can't add `createInstance` static method as an abstract in `AbstractApplication`.
 
 So to reach our goal (Ensure that all application work mostly the same way), we manually check if a child implements the `createInstance` method. Due to its manual characteristic, this check have specific aspects:
 

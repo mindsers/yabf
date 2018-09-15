@@ -1,7 +1,7 @@
 # Application (class)
 
 ```ts
-abstract class Application {
+abstract class AbstractApplication {
   constructor(injectorService: InjectorService)
 
   provide<C>(className: InjectionType<C>): void
@@ -19,11 +19,11 @@ abstract class Application {
 
 It provide some of the common behavior that all application have. Ensure that any type of application can use dependency injection.
 
-> Due to TypeScript limitation, we can't add `createInstance` static method as an abstract in `Application`. However, children of `Application` should implement their own `static createInstance(): ChildApplication` to ensure consistency and compatibility. So, `Application` manually check if a child implements this method and throw a warning at runtime if not. For more informations, read [Application's children should implements createInstance method](../application-should-have-createinstance-method.md)
+> Due to TypeScript limitation, we can't add `createInstance` static method as an abstract in `AbstractApplication`. However, children of `AbstractApplication` should implement their own `static createInstance(): ChildApplication` to ensure consistency and compatibility. So, `AbstractApplication` manually check if a child implements this method and throw a warning at runtime if not. For more informations, read [Application's children should implements createInstance method](../application-should-have-createinstance-method.md)
 
 ## Constructor
 
-Initialize `Application` instance.
+Initialize `AbstractApplication` instance.
 
 ```ts
 constructor(injectorService: InjectorService)

@@ -3,7 +3,7 @@ import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectionSelector } from '../injector/injection-selector.type'
 import { InjectionType } from '../injector/injection-type.interface'
 
-export abstract class Application {
+export abstract class AbstractApplication {
   constructor(protected injectorService: IDependencyInjectionProvider) {
     const constructor = this.constructor as { createInstance?: any; name: string }
 
