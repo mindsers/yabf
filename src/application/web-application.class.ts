@@ -15,20 +15,6 @@ export class WebApplication extends AbstractApplication {
     super(injectorService)
   }
 
-  static createInstance(): WebApplication {
-    const injector = InjectorService.getMainInstance()
-    const app = injector.get(WebApplication)
-
-    if (app != null) {
-      return app
-    }
-
-    injector.provide(WebApplication, [InjectorService, RouterService])
-    injector.provide(RouterService, [InjectorService])
-
-    return injector.get(WebApplication) as WebApplication
-  }
-
   declare<C extends Controller>(className: InjectionClass<C>, dependencies: InjectionSelector<any>[] = []) {
     for (const dependency of dependencies) {
       if (this.routerService.isRegistered(dependency as InjectionClass<Controller>)) {
@@ -60,6 +46,13 @@ export class WebApplication extends AbstractApplication {
       .listen(config.server.port)
 
     console.info(`Listen on 127.0.0.1:${config.server.port}`)
+  }
+
+  protected buildInstructions() {
+    return [
+      { provide: WebApplication, dependencies: [InjectorService, RouterService] },
+      { provide: RouterService, dependencies: [InjectorService] },
+    ]
   }
 
   private getConfiguration(): IAppConfig {

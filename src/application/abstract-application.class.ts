@@ -2,8 +2,27 @@ import { IDependencyInjectionProvider } from '../injector/dependency-injector.in
 import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectionSelector } from '../injector/injection-selector.type'
 import { InjectionType } from '../injector/injection-type.interface'
+import { InjectorService } from '../injector/injector.class'
 
 export abstract class AbstractApplication {
+  static createInstance<T extends AbstractApplication>(): T {
+    const injector = InjectorService.getMainInstance()
+    const [appData, ...data] = this.prototype.buildInstructions()
+    const app = injector.get(appData.provide) as T
+
+    if (app != null) {
+      return app
+    }
+
+    injector.provide(appData.provide, [InjectorService, ...appData.dependencies])
+
+    for (const item of data) {
+      injector.provide(item.provide, item.dependencies)
+    }
+
+    return injector.get(appData.provide) as T
+  }
+
   constructor(protected injectorService: IDependencyInjectionProvider) {
     const constructor = this.constructor as { createInstance?: any; name: string }
 
@@ -22,4 +41,10 @@ export abstract class AbstractApplication {
   }
 
   abstract start(): void
+  protected abstract buildInstructions(): IBuildInstruction[]
+}
+
+export interface IBuildInstruction {
+  provide: InjectionClass<any>
+  dependencies: InjectionSelector<any>[]
 }
