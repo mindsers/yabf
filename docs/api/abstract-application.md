@@ -87,3 +87,21 @@ No parameters.
 ### Returns
 
 This method return nothing. `void`
+
+## # buildInstractions()
+
+Allow you to specify how to build a custom application.
+
+```ts
+protected abstract buildInstructions(): IBuildInstruction[]
+```
+
+### Parameters
+
+No pramaeters.
+
+### Returns
+
+Return an array of build instructions.
+
+The first instruction must be about the application. Yabf inject the dependencies injector before injecting others of yours.
