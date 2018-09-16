@@ -23,16 +23,7 @@ export abstract class AbstractApplication {
     return injector.get(appData.provide) as T
   }
 
-  constructor(protected injectorService: IDependencyInjectionProvider) {
-    const constructor = this.constructor as { createInstance?: any; name: string }
-
-    if (constructor.createInstance == null || typeof constructor.createInstance !== 'function') {
-      console.warn(
-        `The static factory method "createInstance" haven't been created in class ${constructor.name}.`,
-        `This behavior will be depracated and removed in future version.`,
-      )
-    }
-  }
+  constructor(protected injectorService: IDependencyInjectionProvider) {}
 
   provide<C>(className: InjectionType<C>): void
   provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
