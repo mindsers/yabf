@@ -2,12 +2,15 @@
 
 ```ts
 abstract class AbstractApplication {
+  static createInstance<T extends AbstractApplication>(): T
+
   constructor(injectorService: InjectorService)
 
   provide<C>(className: InjectionType<C>): void
   provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
 
   abstract start(): void
+  protected abstract buildInstructions(): IBuildInstruction[]
 }
 ```
 
@@ -34,6 +37,26 @@ constructor(injectorService: InjectorService)
 - `injectorService`: the service that have the responsibility to create and inject objects.
 
 ## Methods
+
+## # createInstance()
+
+Create an instance of the application. Automatically inject the YABF dependency injector in the application. If you don't want to use the default injector, you have to overwrite this method.
+
+To correctly use this method you have to implement `buildInstructions()` method.
+
+```ts
+static createInstance<T extends AbstractApplication>(): T
+```
+
+### Paramaters
+
+No parameters.
+
+### Returns
+
+An instance of an application. For `WebApplication.createInstance()` you'll get an instance of `WebApplication`.
+
+Maybe TypeScript will type the return value as `AbstractApplication` which is true but not as efficient as we want. To correct this you have to use the generic version like that `WebApplication.createInstance<WebApplication>()`.
 
 ## # provide()
 
