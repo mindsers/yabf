@@ -52,3 +52,28 @@ export class CLIApplication extends AbstractApplication {
   }
 }
 ```
+
+## Inject new dependency
+
+To inject new dependencies, you have to owerwrite the `constructor` and add the instructions in `buildInstructions()` method.
+
+```ts
+export class CLIApplication extends AbstractApplication {
+  constructor(injector: IDependencyInjectionProvider, private parser: CLIParser) {
+    super(injector)
+  }
+
+  // ...
+
+  private buildInstructions() {
+    return [
+      { provide: CLIApplication, dependencies: [CLIParser] },
+      { provide: CLIParser, dependency: []}
+    ]
+  }
+}
+```
+
+We don't specify `injector` in `buildInstructions` because *YABF* will automatically inject it. You shoud use `buildInstructions()` only for custom dependencies.
+
+To avoid this behavior, you should overwrite `createInstance()` static method.
