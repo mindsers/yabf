@@ -22,8 +22,6 @@ abstract class AbstractApplication {
 
 It provide some of the common behavior that all application have. Ensure that any type of application can use dependency injection.
 
-> Due to TypeScript limitation, we can't add `createInstance` static method as an abstract in `AbstractApplication`. However, children of `AbstractApplication` should implement their own `static createInstance(): ChildApplication` to ensure consistency and compatibility. So, `AbstractApplication` manually check if a child implements this method and throw a warning at runtime if not. For more informations, read [Application's children should implements createInstance method](../application-should-have-createinstance-method.md)
-
 ## Constructor
 
 Initialize `AbstractApplication` instance.
@@ -42,7 +40,7 @@ constructor(injectorService: InjectorService)
 
 Create an instance of the application. Automatically inject the YABF dependency injector in the application. If you don't want to use the default injector, you have to overwrite this method.
 
-To correctly use this method you have to implement `buildInstructions()` method.
+To correctly use this method you have to implement `buildInstructions()` method below.
 
 ```ts
 static createInstance<T extends AbstractApplication>(): T
@@ -88,7 +86,7 @@ No parameters.
 
 This method return nothing. `void`
 
-## # buildInstractions()
+## # buildInstructions()
 
 Allow you to specify how to build a custom application.
 
