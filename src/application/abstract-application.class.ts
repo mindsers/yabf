@@ -3,11 +3,17 @@ import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectionSelector } from '../injector/injection-selector.type'
 import { InjectionType } from '../injector/injection-type.interface'
 import { InjectorService } from '../injector/injector.class'
+import { MissingBuildInstruction } from './missing-build-instruction-error.class'
 
 export abstract class AbstractApplication {
   static createInstance<T extends AbstractApplication>(): T {
     const injector = InjectorService.getMainInstance()
     const [appData, ...data] = this.prototype.buildInstructions()
+
+    if (appData == null) {
+      throw new MissingBuildInstruction(`Unable to build ${this.constructor.name}. Build instruction is missing.`)
+    }
+
     const app = injector.get(appData.provide) as T
 
     if (app != null) {
