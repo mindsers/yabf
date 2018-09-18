@@ -6,17 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- New `abstract` class `AbstractApplication` to allow core extension. (new type of application). ([!15](https://github.com/Mindsers/yabf/pull/15))
+- New `abstract` class `AbstractApplication` to allow core extension. (new type of application). ([!15](https://github.com/Mindsers/yabf/pull/15), [!18](https://github.com/Mindsers/yabf/pull/18))
 - Add `SPONSORS.md` and a `README.md` section to thanks people who contribute to Yabf. ([!12](https://github.com/Mindsers/yabf/pull/12), [!13](https://github.com/Mindsers/yabf/pull/13))
 - Add `CHANGELOG.md` to log changes more easily and clearly than `git log`. ([!17](https://github.com/Mindsers/yabf/pull/17))
 
 ### Changed
-- `Application` is now `WebApplication`. Using `Application` is deprecated. ([!15](https://github.com/Mindsers/yabf/pull/15))
-- `AbstractApplication` children can use tiers dependency injector.
+- `Application` is now `WebApplication`. Using `Application` is deprecated. ([!15](https://github.com/Mindsers/yabf/pull/15), [!18](https://github.com/Mindsers/yabf/pull/18))
+- `AbstractApplication` children can use tiers dependency injector ([!18](https://github.com/Mindsers/yabf/pull/18)).
 
 ### Fixed
 - Remove restrictions on controllers' properties. ([#10](https://github.com/Mindsers/yabf/issues/10), [!11](https://github.com/Mindsers/yabf/pull/11))
-- Use `IDependencyInjector` instead of `Injector` for public exposition. ([!15](https://github.com/Mindsers/yabf/pull/15))
+- Use `IDependencyInjectionProvider` instead of `Injector` for public exposition. ([!18](https://github.com/Mindsers/yabf/pull/18))
 
 ## [1.0.0] - 2018-07-22
 ### Added
