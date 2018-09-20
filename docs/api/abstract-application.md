@@ -1,13 +1,16 @@
 # Application (class)
 
 ```ts
-abstract class Application {
+abstract class AbstractApplication {
+  static createInstance<T extends AbstractApplication>(): T
+
   constructor(injectorService: InjectorService)
 
   provide<C>(className: InjectionType<C>): void
   provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
 
   abstract start(): void
+  protected abstract buildInstructions(): IBuildInstruction[]
 }
 ```
 
@@ -19,11 +22,9 @@ abstract class Application {
 
 It provide some of the common behavior that all application have. Ensure that any type of application can use dependency injection.
 
-> Due to TypeScript limitation, we can't add `createInstance` static method as an abstract in `Application`. However, children of `Application` should implement their own `static createInstance(): ChildApplication` to ensure consistency and compatibility. So, `Application` manually check if a child implements this method and throw a warning at runtime if not. For more informations, read [Application's children should implements createInstance method](../application-should-have-createinstance-method.md)
-
 ## Constructor
 
-Initialize `Application` instance.
+Initialize `AbstractApplication` instance.
 
 ```ts
 constructor(injectorService: InjectorService)
@@ -34,6 +35,26 @@ constructor(injectorService: InjectorService)
 - `injectorService`: the service that have the responsibility to create and inject objects.
 
 ## Methods
+
+## # createInstance()
+
+Create an instance of the application. Automatically inject the YABF dependency injector in the application. If you don't want to use the default injector, you have to overwrite this method.
+
+To correctly use this method you have to implement `buildInstructions()` method below.
+
+```ts
+static createInstance<T extends AbstractApplication>(): T
+```
+
+### Paramaters
+
+No parameters.
+
+### Returns
+
+An instance of an application. For `WebApplication.createInstance()` you'll get an instance of `WebApplication`.
+
+Maybe TypeScript will type the return value as `AbstractApplication` which is true but not as efficient as we want. To correct this you have to use the generic version like that `WebApplication.createInstance<WebApplication>()`.
 
 ## # provide()
 
@@ -64,3 +85,21 @@ No parameters.
 ### Returns
 
 This method return nothing. `void`
+
+## # buildInstructions()
+
+Allow you to specify how to build a custom application.
+
+```ts
+protected abstract buildInstructions(): IBuildInstruction[]
+```
+
+### Parameters
+
+No pramaeters.
+
+### Returns
+
+Return an array of build instructions.
+
+The first instruction must be about the application. Yabf inject the dependencies injector before injecting others of yours.
