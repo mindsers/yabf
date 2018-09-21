@@ -1,5 +1,7 @@
-export * from './application/application.class'
+export * from './application/abstract-application.class'
+export * from './application/web-application.class'
 export * from './application/app-config.interface'
+export * from './application/application.proxy'
 
 export * from './controller/controller.class'
 
