@@ -2,5 +2,7 @@
 
 You'll find here the entire Yabf API.
 
-- [AbstractApplication](./abstract-application.md)
-- [WebApplication](./web-application.md)
+- [AbstractApplication](./abstract-application.md) (class)
+- [Application](./application.md) (class)
+- [WebApplication](./web-application.md) (class)
+- [AppConfig](./app-config.md) (inteface)
