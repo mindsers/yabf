@@ -1,4 +1,4 @@
-# Application
+# Application (class)
 
 **Depraced since Yabf 2.0**
 
