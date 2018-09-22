@@ -8,3 +8,4 @@ You'll find here the entire Yabf API.
 - [AppConfig](./app-config.md) (inteface)
 - [InjectionToken](./injection-token.md) (class)
 - [InjectionSelector](./injection-selector.md) (interface)
+- [Route](./route.md) (interface)
