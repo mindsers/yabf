@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - New `abstract` class `AbstractApplication` to allow core extension. (new type of application). ([!15](https://github.com/Mindsers/yabf/pull/15), [!18](https://github.com/Mindsers/yabf/pull/18))
 - Add `SPONSORS.md` and a `README.md` section to thanks people who contribute to Yabf. ([!12](https://github.com/Mindsers/yabf/pull/12), [!13](https://github.com/Mindsers/yabf/pull/13))
 - Add `CHANGELOG.md` to log changes more easily and clearly than `git log`. ([!17](https://github.com/Mindsers/yabf/pull/17))
+- Add full documentation in the project ([#19](https://github.com/Mindsers/yabf/issues/19), [!20](https://github.com/Mindsers/yabf/pull/20))
 
 ### Changed
 - `Application` is now `WebApplication`. Using `Application` is deprecated. ([!15](https://github.com/Mindsers/yabf/pull/15), [!18](https://github.com/Mindsers/yabf/pull/18))

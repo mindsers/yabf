@@ -21,7 +21,7 @@ An implementation of `Application` designed for the web. Add support for `Contro
 
 ## Constructor
 
-Initialize `ferpection` instance.
+Initialize `WebApplication` instance.
 
 ```ts
 constructor(injectorService: InjectorService, routerService: RouterService)

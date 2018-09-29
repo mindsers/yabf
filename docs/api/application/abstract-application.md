@@ -1,4 +1,4 @@
-# Application (class)
+# AbstractApplication (class)
 
 ```ts
 abstract class AbstractApplication {
