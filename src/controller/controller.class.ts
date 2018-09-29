@@ -5,7 +5,5 @@ import { IAction } from './action.interface'
 export abstract class Controller {
   [action: string]: IAction | IRoute[] | any
 
-  get routes(): IRoute[] {
-    return []
-  }
+  abstract get routes(): IRoute[]
 }

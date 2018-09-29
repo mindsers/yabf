@@ -18,7 +18,7 @@ export class Request {
 
 ## Description
 
-It's a wrapper for the `Request` objects from NodeJS API. The router will pass a `Request` to controllers' actions.
+It's a wrapper for the `Request` objects from NodeJS API. The router [will pass a `Request` to controllers' actions](../controller/controller.md).
 
 ## Constructor
 

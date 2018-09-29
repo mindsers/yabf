@@ -22,7 +22,7 @@ export class Response {
 
 `Response` is a wrapper for the NodeJS `Reponse` object. It helps you build an HTTP response.
 
-You can return `Response` objects in controllers' actions. This is useful when you have to customize the reponse (status code, description...)
+You can [return `Response` objects in controllers' actions](../controller/controller.md). This is useful when you have to customize the reponse (status code, description...)
 
 ## Constructor
 
