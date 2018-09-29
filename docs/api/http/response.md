@@ -1,4 +1,4 @@
-# Response
+# Response (class)
 
 ```ts
 export class Response {

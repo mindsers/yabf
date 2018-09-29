@@ -1,4 +1,4 @@
-# Request
+# Request (class)
 
 ```ts
 export class Request {
