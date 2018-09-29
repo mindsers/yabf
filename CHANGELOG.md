@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.0.0] - 2018-09-30
 ### Added
 - New `abstract` class `AbstractApplication` to allow core extension. (new type of application). ([!15](https://github.com/Mindsers/yabf/pull/15), [!18](https://github.com/Mindsers/yabf/pull/18))
 - Add `SPONSORS.md` and a `README.md` section to thanks people who contribute to Yabf. ([!12](https://github.com/Mindsers/yabf/pull/12), [!13](https://github.com/Mindsers/yabf/pull/13))
@@ -27,3 +29,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased]: https://github.com/Mindsers/yabf/tree/develop
 [1.0.0]: https://github.com/Mindsers/yabf/tree/v1.0.0
+[2.0.0]: https://github.com/Mindsers/yabf/tree/v2.0.0
