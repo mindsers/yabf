@@ -34,10 +34,10 @@ constructor(private httpRequest: HttpRequest)
 
 ## Properties
 
-- `pathname`: Read only attribute to get the pathname
-- `querystring`: Read only attribute to get the querystring as a `ParsedUrlQuery`
-- `method`: Read only attribute to check the HTTP methods (or verbs)
-- `headers`: Read only attribute to access to all headers entries in HTTP Request
+- `pathname`: Readonly attribute to get the pathname
+- `querystring`: Readonly attribute to get the querystring as a `ParsedUrlQuery`
+- `method`: Readonly attribute to check the HTTP methods (or verbs)
+- `headers`: Readonly attribute to access to all headers entries in HTTP Request
 - `anchor`: Readonly atribute to get the current anchor
 - `body`: Readonly attribute to get the data used as body for the request
 - `isCORS`: Readonly attribute to doade a anadvz
