@@ -1,4 +1,4 @@
-**Yet Another Basic Framework** for NodeJS is a learning experience: I wouldn't use [expressjs](https://expressjs.com) as usual but learn how to make/code dependency injection, routing, http requests, and other development patterns/paradigms/concepts by myself.
+**Yet Another Basic Framework** for NodeJS is a learning experience: I didn't want to use [expressjs](https://expressjs.com) as usual but rather learn how to make/code dependency injection, routing, http requests, and other development patterns/paradigms/concepts by myself.
 
 
 ## Know more
