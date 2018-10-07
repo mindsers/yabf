@@ -49,7 +49,7 @@ provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]
 
 ### Returns
 
-`void`: This method return nothing.
+`void`: This method returns nothing.
 
 ## # declare()
 
@@ -66,7 +66,7 @@ declare<C extends Controller>(className: InjectionClass<C>, dependencies: Inject
 
 ### Returns
 
-`void`: This method return nothing.
+`void`: This method returns nothing.
 
 ## # start()
 
@@ -78,11 +78,11 @@ No parameters.
 
 ### Returns
 
-`void`: This method return nothing.
+`void`: This method returns nothing.
 
 ## # createInstance()
 
-Static factory method which is responsible to create a new instance of `WebApplication` if no one is found in the dependency injector scope. If an instance already exist, it will be returned.
+Static factory method which is responsible to create a new instance of `WebApplication` if no one is found in the dependency injector scope. If an instance already exists, it will be returned.
 
 ```ts
 static createInstance(): WebApplication
