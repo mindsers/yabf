@@ -50,7 +50,7 @@ app.start()
 - `server.port`: (required) The port number listen by the server. Set to `8080` by default.
 - `assests.location`: The path where are stored your assets.
 - `locales.list`: Locale list supported by your application. Set to `['en']` by default.
-- `locale.default`: Parimary locale of your application. Set to the first element of `locales.list` by default.
+- `locale.default`: Primary locale of your application. Set to the first element of `locales.list` by default.
 - `cors.activated`: Set or unset the CORS support for your application. Set to `true` by default.
 - `cors.headers`: List of allowed headers.
 - `cors.origins`: List of allowed origins.

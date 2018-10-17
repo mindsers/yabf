@@ -20,7 +20,7 @@ abstract class AbstractApplication {
 
 ## Description
 
-It provide some of the common behavior that all application have. Ensure that any type of application can use dependency injection.
+It provides some of the common behavior that all applications have. Ensure that any type of application can use dependency injection.
 
 ## Constructor
 
@@ -38,7 +38,7 @@ constructor(injectorService: InjectorService)
 
 ## # createInstance()
 
-Create an instance of the application. Automatically inject the YABF dependency injector in the application. If you don't want to use the default injector, you have to overwrite this method.
+Create an instance of the application. Automatically injects the YABF dependency injector in the application. If you don't want to use the default injector, you have to overwrite this method.
 
 To correctly use this method you have to implement `buildInstructions()` method below.
 
@@ -72,7 +72,7 @@ provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]
 
 ### Returns
 
-This method return nothing. `void`
+This method returns nothing. `void`
 
 ## # start()
 
@@ -84,7 +84,7 @@ No parameters.
 
 ### Returns
 
-This method return nothing. `void`
+This method returns nothing. `void`
 
 ## # buildInstructions()
 
@@ -96,10 +96,10 @@ protected abstract buildInstructions(): IBuildInstruction[]
 
 ### Parameters
 
-No pramaeters.
+No parameters.
 
 ### Returns
 
 Return an array of build instructions.
 
-The first instruction must be about the application. Yabf inject the dependencies injector before injecting others of yours.
+The first instruction must be about the application. Yabf injects the dependencies injector before injecting others of yours.

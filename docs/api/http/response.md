@@ -43,7 +43,7 @@ constructor(data: any, errorCode = 200, description: string|null = null)
 - `contentType`: indicate in what format is the request data (`JSON`, brut text...)
 - `data`: the data you want to return to the user
 - `errorCode`: an HTTP error code for the response. The default value is [`200`](https://tools.ietf.org/html/rfc2616#section-10.2.1).
-- `description`: the response explaination. Give context about the response. It is commonly related to `errorCode`.
+- `description`: the response explanation. Give context about the response. It is commonly related to `errorCode`.
 
 ## Methods
 ## # setHeader()

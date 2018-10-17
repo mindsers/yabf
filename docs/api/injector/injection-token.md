@@ -20,4 +20,4 @@ app.provide({ provide: OPTION_TOKEN, useValue: options })
 const opt = app.get(OPTION_TOKEN) // opt === options
 ```
 
-You can use the generic type to let the compiler knowing what is the type returned by the injector.
+You can use the generic type to let the compiler know what is the type returned by the injector.
