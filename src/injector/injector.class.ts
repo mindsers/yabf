@@ -1,9 +1,10 @@
+import { IDependencyInjectionProvider } from './dependency-injector.interface'
 import { InjectionClass } from './injection-class.interface'
 import { InjectionSelector } from './injection-selector.type'
 import { InjectionToken } from './injection-token.class'
 import { InjectionType } from './injection-type.interface'
 
-export class InjectorService {
+export class InjectorService implements IDependencyInjectionProvider {
   static instances: InjectorInstance<any>[] = []
 
   private data: InjectionData[] = []

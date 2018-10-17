@@ -4,10 +4,10 @@ import test from 'ava'
 import { InjectorService } from '../injector/injector.class'
 import { RouterService } from '../router/router.class'
 
-import { Application } from './application.class'
+import { WebApplication } from './web-application.class'
 
 test('starting', t => {
   t.notThrows(() => {
-    const app = new Application({} as InjectorService, {} as RouterService)
+    const app = new WebApplication({} as InjectorService, {} as RouterService)
   })
 })
