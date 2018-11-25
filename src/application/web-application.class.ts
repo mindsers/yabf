@@ -13,6 +13,8 @@ import { ControllerInControllerError } from './controller-in-controller-error.cl
 export class WebApplication extends AbstractApplication {
   constructor(injectorService: InjectorService, private routerService: RouterService) {
     super(injectorService)
+
+    this.routerService = routerService
   }
 
   declare<C extends Controller>(className: InjectionClass<C>, dependencies: InjectionSelector<any>[] = []) {
