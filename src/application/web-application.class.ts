@@ -50,7 +50,7 @@ export class WebApplication extends AbstractApplication {
 
   protected buildInstructions() {
     return [
-      { provide: WebApplication, dependencies: [InjectorService, RouterService] },
+      { provide: WebApplication, dependencies: [RouterService] },
       { provide: RouterService, dependencies: [InjectorService] },
     ]
   }
