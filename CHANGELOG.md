@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.1] - 2018-11-25
+### Fixed
+- Default router service is `undefined`. ([#23](https://github.com/Mindsers/yabf/issues/23))
+
 ## [2.0.0] - 2018-09-30
 ### Added
 - New `abstract` class `AbstractApplication` to allow core extension. (new type of application). ([!15](https://github.com/Mindsers/yabf/pull/15), [!18](https://github.com/Mindsers/yabf/pull/18))
@@ -28,5 +32,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `Request` and `Response` to abstract logic of HTTP request and response.
 
 [Unreleased]: https://github.com/Mindsers/yabf/tree/develop
-[1.0.0]: https://github.com/Mindsers/yabf/tree/v1.0.0
+[2.0.1]: https://github.com/Mindsers/yabf/tree/v2.0.1
 [2.0.0]: https://github.com/Mindsers/yabf/tree/v2.0.0
+[1.0.0]: https://github.com/Mindsers/yabf/tree/v1.0.0
