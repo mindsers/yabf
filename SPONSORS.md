@@ -35,4 +35,4 @@ No one is in the **Sponsors** section for now. Be the first! Read the **How can 
 
 The best supporters are listed below:
 
-- Bernadette Cherrier ([Facebook](https://www.facebook.com/profile.php?id=100008691914054))
+- Aurore Jacquemont ([Patreon](https://www.patreon.com/user/creators?u=15255739))
