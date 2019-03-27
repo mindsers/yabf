@@ -1,11 +1,11 @@
 # Yabf
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 [![npm](https://img.shields.io/npm/v/yabf.svg?style=flat-square)](https://www.npmjs.com/package/yabf)
 [![npm](https://img.shields.io/npm/dt/yabf.svg?style=flat-square)](https://www.npmjs.com/package/yabf)
 [![npm](https://img.shields.io/npm/l/yabf.svg?style=flat-square)](https://github.com/Mindsers/yabf/blob/master/LICENSE)
 [![Patreon](https://img.shields.io/badge/support-patreon-F96854.svg?logo=patreon&style=flat-square)](https://www.patreon.com/bePatron?u=9715649)
 [![Discord](https://img.shields.io/badge/chat-discord-7289DA.svg?logo=discord&logoColor=7289DA&style=flat-square)](https://discord.gg/AtKK45B)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 **Yet Another Basic Framework** for NodeJS.
 
@@ -60,6 +60,8 @@ For more details, please refer to the [wiki](https://github.com/Mindsers/yabf/wi
 
 Contributions to the source code of *Yabf* are welcomed and greatly appreciated. For help on how to contribute in this project, please refer to [How to contribute to *Yabf*](https://github.com/Mindsers/yabf/blob/develop/CONTRIBUTING.md).
 
+To see the contributors list, go to the [CONTRIBUTORS.md](https://github.com/mindsers/yabf/blob/develop/CONTRIBUTORS.md) file.
+
 ## Support
 
 *Yabf* is licensed under an MIT license, which means that it's completely free open source software. Unfortunately, *Yabf* doesn't make it itself. Which will result in many late, beer-filled nights of development for me.
@@ -97,15 +99,3 @@ This project is under the MIT License. (see LICENSE file in the root directory)
 > LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 > OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 > SOFTWARE.
-
-## Contributors
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-<table><tr><td align="center"><a href="https://nathanaelcherrier.com"><img src="https://avatars0.githubusercontent.com/u/3090112?v=4" width="100px;" alt="Nathanael CHERRIER"/><br /><sub><b>Nathanael CHERRIER</b></sub></a><br /><a href="#blog-mindsers" title="Blogposts">📝</a> <a href="https://github.com/mindsers/yabf/commits?author=mindsers" title="Code">💻</a> <a href="#maintenance-mindsers" title="Maintenance">🚧</a> <a href="https://github.com/mindsers/yabf/commits?author=mindsers" title="Documentation">📖</a></td></tr></table>
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
