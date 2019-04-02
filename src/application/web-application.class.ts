@@ -4,6 +4,7 @@ import { Controller } from '../controller/controller.class'
 import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectionSelector } from '../injector/injection-selector.type'
 import { InjectorService } from '../injector/injector.class'
+import { LoggerService } from '../logger/logger.class'
 import { RouterService } from '../router/router.class'
 
 import { AbstractApplication } from './abstract-application.class'
@@ -11,8 +12,12 @@ import { APP_CONFIG, IAppConfig } from './app-config.interface'
 import { ControllerInControllerError } from './controller-in-controller-error.class'
 
 export class WebApplication extends AbstractApplication {
-  constructor(injectorService: InjectorService, private routerService: RouterService) {
+  private log: (message: string) => void
+
+  constructor(injectorService: InjectorService, private routerService: RouterService, loggerService: LoggerService) {
     super(injectorService)
+
+    this.log = loggerService.registerScope('yabf:application')
   }
 
   declare<C extends Controller>(className: InjectionClass<C>, dependencies: InjectionSelector<any>[] = []) {
@@ -45,13 +50,14 @@ export class WebApplication extends AbstractApplication {
       })
       .listen(config.server.port)
 
-    console.info(`Listen on 127.0.0.1:${config.server.port}`)
+    this.log(`Listen on 127.0.0.1:${config.server.port}`)
   }
 
   protected buildInstructions() {
     return [
-      { provide: WebApplication, dependencies: [RouterService] },
+      { provide: WebApplication, dependencies: [RouterService, LoggerService] },
       { provide: RouterService, dependencies: [InjectorService] },
+      { provide: LoggerService, dependencies: [] },
     ]
   }
 
