@@ -11,8 +11,7 @@ export class LoggerService {
   registerScope(namespace: string) {
     const isReserved = new RegExp(`^${this.internalScope.namespace}`)
     if (isReserved.test(namespace)) {
-      this.write(`Unable to register this scope. Do not use a reserved namespace`, this.internalScope)
-      throw new TypeError('Namespace reserved')
+      throw new Error(`Unable to register this scope. Do not use a reserved namespace`)
     }
 
     const scope = this.scopes.find(s => s.namespace === namespace)
@@ -30,9 +29,7 @@ export class LoggerService {
     const scope = this.scopes.find(s => s.namespace === namespace)
 
     if (scope == null) {
-      this.write(`No scope found for namespace "${namespace}"`, this.internalScope)
-
-      return
+      throw new Error(`No scope found for namespace "${namespace}"`)
     }
 
     this.write(message, scope)
