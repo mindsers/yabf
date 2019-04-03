@@ -9,6 +9,9 @@ export class LoggerService {
 
   private scopes: ILoggerScope[] = []
   private internalScope: ILoggerScope = { namespace: 'yabf:logger', color: 36 }
+  private authorizedNamespaces: string[] = []
+
+  constructor(private namespaceFilters?: string) {}
 
   registerScope(namespace: string) {
     const isReserved = new RegExp(`^${this.internalScope.namespace}`)
@@ -24,20 +27,26 @@ export class LoggerService {
       this.scopes = [...this.scopes, { namespace, color }]
     }
 
+    this.updateAuthorizedNamespaces()
+
     return (message: string) => this.log(namespace, message)
   }
 
-  log(namespace: string, message: string) {
+  log(namespace: string, message: string): void {
     const scope = this.scopes.find(s => s.namespace === namespace)
 
     if (scope == null) {
       throw new Error(`No scope found for namespace "${namespace}"`)
     }
 
+    if (!this.authorizedNamespaces.includes(namespace)) {
+      return
+    }
+
     this.write(message, scope)
   }
 
-  private write(message: string, scope: ILoggerScope) {
+  private write(message: string, scope: ILoggerScope): void {
     const [previousWriteTime, currentWriteTime] = this.checkScopeTimes(scope)
 
     const prefix = `\x1b[${scope.color}m${scope.namespace}\x1b[0m`
@@ -53,7 +62,7 @@ export class LoggerService {
     }
   }
 
-  private checkScopeTimes(scope: ILoggerScope) {
+  private checkScopeTimes(scope: ILoggerScope): [number, number] {
     const currentWrite = Date.now()
     const { lastWrite = currentWrite } = scope
 
@@ -63,7 +72,7 @@ export class LoggerService {
     return [lastWrite, currentWrite]
   }
 
-  private computeHumanTime(timestempA: number, timestempB: number) {
+  private computeHumanTime(timestempA: number, timestempB: number): string {
     const diff = timestempA === 0 ? 0 : timestempB - timestempA
 
     const days = Math.floor(diff / 86_400_000)
@@ -80,5 +89,45 @@ export class LoggerService {
     if (milliseconds >= 0) { text += `${milliseconds}ms` }
 
     return text.trim()
+  }
+
+  private updateAuthorizedNamespaces() {
+    const namespaces = this.scopes.map(scope => scope.namespace)
+
+    this.authorizedNamespaces = this.filterNamespaces(this.namespaceFilters, namespaces)
+  }
+
+  private filterNamespaces(filtersString?: string, namespaces: string[] = []): string[] {
+    const { env: { DEBUG = filtersString || '' } } = process
+
+    if (DEBUG == null || DEBUG === '') return []
+
+    const filterList = DEBUG.split(',')
+    const filters = {
+      exlude: filterList
+        .filter(filter => filter.startsWith('-'))
+        .map(filter => filter.replace(/^-/, '')),
+      include: filterList.filter(filter => !filter.startsWith('-')),
+    }
+
+    return namespaces
+      .filter(namespace => {
+        for (const filter of filters.exlude) {
+          if (namespace === filter) {
+            return false
+          }
+        }
+
+        return true
+      })
+      .filter(namespace => {
+        for (const filter of filters.include) {
+          if (namespace === filter) {
+            return true
+          }
+        }
+
+        return false
+      })
   }
 }
