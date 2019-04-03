@@ -113,7 +113,7 @@ const messages = [
   { scope: 'yabf', text: 'text 1' },
 ]
 
-test.only('log should write message of "yabf:injector" if config equal "yabf:injector"', t => {
+test('log should write message of "yabf:injector" if config equal "yabf:injector"', t => {
   const service = new LoggerService('yabf:injector')
   messages
     .reduce((a: { scope: string }[], c: { scope: string }) => {
@@ -136,7 +136,28 @@ test.only('log should write message of "yabf:injector" if config equal "yabf:inj
   messages.forEach(message => service.log(message.scope, message.text))
 })
 
-test.todo('log should write message of "yabf:injector" if config equal "yabf:injector,express:*"')
+test.only('log should write message of "yabf:injector" if config equal "yabf:injector,express:*"', t => {
+  const service = new LoggerService('yabf:injector')
+  messages
+    .reduce((a: { scope: string }[], c: { scope: string }) => {
+      if (a.includes(c)) {
+        return a
+      }
+
+      return [...a, c]
+    }, [])
+    .map(message => message.scope)
+    .forEach(scope => {
+      service.registerScope(scope)
+    })
+  service.output = {
+    write(message) {
+      t.true(/(yabf:injector[^:]|express.*)/.test(message))
+    },
+  }
+
+  messages.forEach(message => service.log(message.scope, message.text))
+})
 test.todo('log should write message of "yabf:injector" if config equal "yabf:*,express:*"')
 test.todo('log should write message of "yabf:injector" if config equal "*"')
 test.todo('log should write message of "yabf:injector" if config equal "*,-express"')
