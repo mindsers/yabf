@@ -40,6 +40,13 @@ export class LoggerService {
   private write(message: string, { namespace, color  }: ILoggerScope) {
     const prefix = `\x1b[${color}m${namespace}\x1b[0m`
 
-    this.output.write(`${prefix} ${format(message)}\n`)
+    const lines = message
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line != null && line !== '')
+
+    for (const line of lines) {
+      this.output.write(`${prefix} ${format(line)}\n`)
+    }
   }
 }

@@ -59,3 +59,19 @@ test('log function returned by registerScope should call output', t => {
 
   t.true(count > 0)
 })
+
+test('log should write several line instead of using "\\n"', t => {
+  const service = new LoggerService()
+  const log = service.registerScope('a')
+
+  let count = 0
+  service.output = {
+    write(_message: string) {
+      count += 1
+    },
+  }
+
+  log('test\ntest 1\ntest 2\ntest 3\n')
+
+  t.true(count === 4)
+})
