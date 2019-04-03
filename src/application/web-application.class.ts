@@ -56,7 +56,7 @@ export class WebApplication extends AbstractApplication {
   protected buildInstructions() {
     return [
       { provide: WebApplication, dependencies: [RouterService, LoggerService] },
-      { provide: RouterService, dependencies: [InjectorService] },
+      { provide: RouterService, dependencies: [InjectorService, LoggerService] },
       { provide: LoggerService, dependencies: [] },
     ]
   }
