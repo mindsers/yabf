@@ -5,6 +5,8 @@ import { ILoggerScope } from './logger-scope.interface'
 const colors = [35, 33, 37, 32, 31, 36, 34]
 
 export class LoggerService {
+  output: { write(message: string): void } = process.stderr
+
   private scopes: ILoggerScope[] = []
   private internalScope: ILoggerScope = { namespace: 'yabf:logger', color: 36, lastWrite: null }
 
@@ -38,6 +40,6 @@ export class LoggerService {
   private write(message: string, { namespace, color  }: ILoggerScope) {
     const prefix = `\x1b[${color}m${namespace}\x1b[0m`
 
-    process.stderr.write(`${prefix} ${format(message)}\n`)
+    this.output.write(`${prefix} ${format(message)}\n`)
   }
 }

@@ -27,3 +27,35 @@ test('registerScope should throw an error if trying to register a sub namespace 
 
   t.throws(() => service.registerScope('yabf:logger:bunyan'))
 })
+
+test('log should call output', t => {
+  const service = new LoggerService()
+  service.registerScope('a')
+
+  let count = 0
+  service.output = {
+    write(_message: string) {
+      count += 1
+    },
+  }
+
+  service.log('a', 'test')
+
+  t.true(count > 0)
+})
+
+test('log function returned by registerScope should call output', t => {
+  const service = new LoggerService()
+  const log = service.registerScope('a')
+
+  let count = 0
+  service.output = {
+    write(_message: string) {
+      count += 1
+    },
+  }
+
+  log('test')
+
+  t.true(count > 0)
+})
