@@ -1,3 +1,5 @@
+import { LoggerService } from '../logger/logger.class'
+
 import { IDependencyInjectionProvider } from './dependency-injector.interface'
 import { InjectionClass } from './injection-class.interface'
 import { InjectionSelector } from './injection-selector.type'
@@ -8,6 +10,11 @@ export class InjectorService implements IDependencyInjectionProvider {
   static instances: InjectorInstance<any>[] = []
 
   private data: InjectionData[] = []
+  private log?: (message: string) => void
+
+  constructor(loggerService: LoggerService) {
+    this.log = loggerService.registerScope('yabf:injector')
+  }
 
   static getMainInstance(): InjectorService {
     const existingInstance = InjectorService.instances
@@ -17,8 +24,11 @@ export class InjectorService implements IDependencyInjectionProvider {
       return existingInstance.value as InjectorService
     }
 
-    const injector = new InjectorService()
+    const logger = new LoggerService()
+    const injector = new InjectorService(logger)
+
     injector.provide({ identity: InjectorService, useValue: injector })
+    injector.provide({ identity: LoggerService, useValue: logger })
 
     return injector.get(InjectorService) as InjectorService
   }
@@ -65,7 +75,9 @@ export class InjectorService implements IDependencyInjectionProvider {
     const data = this.data.find(d => d.identity === identity)
 
     if (data == null) {
-      console.warn(`WARN: No data regitered with key : ${identity.constructor.name}`)
+      if (this.log != null) {
+        this.log(`No data regitered with key : ${identity.constructor.name}`)
+      }
 
       return null
     }
