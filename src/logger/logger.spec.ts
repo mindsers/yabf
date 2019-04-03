@@ -75,3 +75,21 @@ test('log should write several line instead of using "\\n"', t => {
 
   t.true(count === 4)
 })
+
+test.cb('log should add the time passed since last log call', t => {
+  const service = new LoggerService()
+  const log = service.registerScope('a')
+
+  service.output = {
+    write(message: string) {
+      t.true(/\+[0-9]+ms/.test(message))
+    },
+  }
+
+  log('test')
+
+  setTimeout(_ => {
+    log('test')
+    t.end()
+  }, 80)
+})

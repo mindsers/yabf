@@ -8,7 +8,7 @@ export class LoggerService {
   output: { write(message: string): void } = process.stderr
 
   private scopes: ILoggerScope[] = []
-  private internalScope: ILoggerScope = { namespace: 'yabf:logger', color: 36, lastWrite: null }
+  private internalScope: ILoggerScope = { namespace: 'yabf:logger', color: 36 }
 
   registerScope(namespace: string) {
     const isReserved = new RegExp(`^${this.internalScope.namespace}`)
@@ -21,7 +21,7 @@ export class LoggerService {
       const previousScope = this.scopes[this.scopes.length - 1] || {}
       const color = colors[colors.indexOf(previousScope.color) + 1] || colors[0]
 
-      this.scopes = [...this.scopes, { namespace, color, lastWrite: null }]
+      this.scopes = [...this.scopes, { namespace, color }]
     }
 
     return (message: string) => this.log(namespace, message)
@@ -37,8 +37,11 @@ export class LoggerService {
     this.write(message, scope)
   }
 
-  private write(message: string, { namespace, color  }: ILoggerScope) {
-    const prefix = `\x1b[${color}m${namespace}\x1b[0m`
+  private write(message: string, scope: ILoggerScope) {
+    const [previousWriteTime, currentWriteTime] = this.checkScopeTimes(scope)
+
+    const prefix = `\x1b[${scope.color}m${scope.namespace}\x1b[0m`
+    const suffix = `\x1b[${scope.color}m${this.computeHumanTime(previousWriteTime, currentWriteTime)}\x1b[0m`
 
     const lines = message
       .split('\n')
@@ -46,7 +49,36 @@ export class LoggerService {
       .filter(line => line != null && line !== '')
 
     for (const line of lines) {
-      this.output.write(`${prefix} ${format(line)}\n`)
+      this.output.write(`${prefix}  ${format(line)} ${suffix}\n`)
     }
+  }
+
+  private checkScopeTimes(scope: ILoggerScope) {
+    const currentWrite = Date.now()
+    const { lastWrite = currentWrite } = scope
+
+    scope.lastWrite = currentWrite
+    this.scopes = [...this.scopes.filter(s => s.namespace !== scope.namespace), scope]
+
+    return [lastWrite, currentWrite]
+  }
+
+  private computeHumanTime(timestempA: number, timestempB: number) {
+    const diff = timestempA === 0 ? 0 : timestempB - timestempA
+
+    const days = Math.floor(diff / 86_400_000)
+    const hours = Math.floor((diff % 86_400_000) / 3_600_000)
+    const minutes = Math.floor(((diff % 86_400_000) % 3_600_000) / 60_000)
+    const seconds = Math.floor((((diff % 86_400_000) % 3_600_000) % 60_000) / 1000)
+    const milliseconds = Math.floor((((diff % 86_400_000) % 3_600_000) % 60_000) % 1000)
+
+    let text = `+`
+    if (days > 0) { text += `${days}d ` }
+    if (hours > 0) { text += `${hours}h ` }
+    if (minutes > 0) { text += `${minutes}m ` }
+    if (seconds > 0) { text += `${seconds}s ` }
+    if (milliseconds >= 0) { text += `${milliseconds}ms` }
+
+    return text.trim()
   }
 }
