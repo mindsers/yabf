@@ -41,7 +41,9 @@ test('log should call output', t => {
 
   let count = 0
   service.output = {
-    write(_message: string) {
+    write(message: string) {
+      t.log(message)
+
       count += 1
     },
   }
@@ -59,7 +61,9 @@ test('log function returned by registerScope should call output', t => {
 
   let count = 0
   service.output = {
-    write(_message: string) {
+    write(message: string) {
+      t.log(message)
+
       count += 1
     },
   }
@@ -77,7 +81,9 @@ test('log should write several line instead of using "\\n"', t => {
 
   let count = 0
   service.output = {
-    write(_message: string) {
+    write(message: string) {
+      t.log(message)
+
       count += 1
     },
   }
@@ -95,6 +101,8 @@ test.cb('log should add the time passed since last log call', t => {
 
   service.output = {
     write(message: string) {
+      t.log(message)
+
       t.true(/\+[0-9]+ms/.test(message))
     },
   }
@@ -121,6 +129,8 @@ test('user should be able to update filters using env vars DEBUG', t => {
 
   service.output = {
     write(message: string) {
+      t.log(message)
+
       t.false(/test:b/.test(message))
     },
   }
