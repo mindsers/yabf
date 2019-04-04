@@ -1,5 +1,6 @@
 import { format } from 'util'
 
+import { LoggerScopeFilterRule } from './logger-scope-filter-rule.class'
 import { ILoggerScope } from './logger-scope.interface'
 
 const colors = [35, 33, 37, 32, 31, 36, 34]
@@ -10,8 +11,14 @@ export class LoggerService {
   private scopes: ILoggerScope[] = []
   private internalScope: ILoggerScope = { namespace: 'yabf:logger', color: 36 }
   private authorizedNamespaces: string[] = []
+  private namespaceFilters: { exclude: LoggerScopeFilterRule[]; include: LoggerScopeFilterRule[] } = {
+    exclude: [],
+    include: [],
+  }
 
-  constructor(private namespaceFilters?: string) {}
+  constructor(filtersString?: string) {
+    this.parseFilters(filtersString || '')
+  }
 
   registerScope(namespace: string) {
     const isReserved = new RegExp(`^${this.internalScope.namespace}`)
@@ -91,38 +98,37 @@ export class LoggerService {
     return text.trim()
   }
 
+  private parseFilters(filtersString: string) {
+    const { env: { DEBUG = filtersString || '' } } = process
+
+    const filterList = (DEBUG == null ? [''] : DEBUG.split(','))
+      .map(representation => new LoggerScopeFilterRule(representation))
+    this.namespaceFilters = {
+      exclude: filterList.filter(filter => filter.isExclusionRule),
+      include: filterList.filter(filter => !filter.isExclusionRule),
+    }
+  }
+
   private updateAuthorizedNamespaces() {
     const namespaces = this.scopes.map(scope => scope.namespace)
 
-    this.authorizedNamespaces = this.filterNamespaces(this.namespaceFilters, namespaces)
+    this.authorizedNamespaces = this.filterNamespaces(namespaces)
   }
 
-  private filterNamespaces(filtersString?: string, namespaces: string[] = []): string[] {
-    const { env: { DEBUG = filtersString || '' } } = process
-
-    if (DEBUG == null || DEBUG === '') return []
-
-    const filterList = DEBUG.split(',')
-    const filters = {
-      exlude: filterList
-        .filter(filter => filter.startsWith('-'))
-        .map(filter => filter.replace(/^-/, '')),
-      include: filterList.filter(filter => !filter.startsWith('-')),
-    }
-
+  private filterNamespaces(namespaces: string[] = []): string[] {
     return namespaces
-      .filter(namespace => {
-        for (const filter of filters.exlude) {
-          if (namespace === filter) {
+      .filter(namespace => { // include
+        for (const filter of this.namespaceFilters.exclude) {
+          if (filter.test(namespace)) {
             return false
           }
         }
 
         return true
       })
-      .filter(namespace => {
-        for (const filter of filters.include) {
-          if (namespace === filter) {
+      .filter(namespace => { // include
+        for (const filter of this.namespaceFilters.include) {
+          if (filter.test(namespace)) {
             return true
           }
         }
