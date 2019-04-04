@@ -1,4 +1,4 @@
-export class LoogerScopeFilter {
+export class LoggerScopeFilterRule {
   isExclusionRule = false
 
   private minimumRawFilter = ''
@@ -20,5 +20,28 @@ export class LoogerScopeFilter {
     const wildcard = `${this.minimumRawFilter.length > 0 && this.hasWildcard ? ':' : ''}${this.hasWildcard ? '*' : ''}`
 
     return `${exclusion}${scope}${wildcard}`
+  }
+
+  test(namespace: string) {
+    const regex = new RegExp(`^${this.minimumRawFilter}`)
+
+    if (!regex.test(namespace)) {
+      return false
+    }
+
+    const isDeeperScope = namespace
+      .trim()
+      .replace(this.minimumRawFilter, '')
+      .length > 0
+
+    if (!isDeeperScope) {
+      return true
+    }
+
+    if (isDeeperScope && this.hasWildcard) {
+      return true
+    }
+
+    return false
   }
 }
