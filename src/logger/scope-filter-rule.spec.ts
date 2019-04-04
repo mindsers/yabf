@@ -1,15 +1,15 @@
 // tslint:disable-next-line:no-implicit-dependencies
 import test from 'ava'
 
-import { LoggerScopeFilterRule } from './logger-scope-filter-rule.class'
+import { ScopeFilterRule } from './scope-filter-rule.class'
 
 test('LoggerScopeFilter should understand correctly a string representation of this filter', t => {
-  const filter1 = new LoggerScopeFilterRule('yabf:injector')
-  const filter2 = new LoggerScopeFilterRule('yabf:router:*')
-  const filter3 = new LoggerScopeFilterRule('-yabf:router')
-  const filter4 = new LoggerScopeFilterRule('-yabf:*')
-  const filter5 = new LoggerScopeFilterRule('-yabf:*:build')
-  const filter6 = new LoggerScopeFilterRule('*')
+  const filter1 = new ScopeFilterRule('yabf:injector')
+  const filter2 = new ScopeFilterRule('yabf:router:*')
+  const filter3 = new ScopeFilterRule('-yabf:router')
+  const filter4 = new ScopeFilterRule('-yabf:*')
+  const filter5 = new ScopeFilterRule('-yabf:*:build')
+  const filter6 = new ScopeFilterRule('*')
 
   t.is(`${filter1}`, 'yabf:injector')
   t.is(`${filter2}`, 'yabf:router:*')
@@ -19,8 +19,8 @@ test('LoggerScopeFilter should understand correctly a string representation of t
   t.is(`${filter6}`, '*')
 })
 
-test.only('test should successfully filter when rule is "yabf:injector"', t => {
-  const filter = new LoggerScopeFilterRule('yabf:injector')
+test('test should successfully filter when rule is "yabf:injector"', t => {
+  const filter = new ScopeFilterRule('yabf:injector')
   const goodScope = [
     'yabf:injector',
   ]
@@ -44,8 +44,8 @@ test.only('test should successfully filter when rule is "yabf:injector"', t => {
   }
 })
 
-test.only('test should successfully filter when rule is "yabf:router:*"', t => {
-  const filter = new LoggerScopeFilterRule('yabf:router:*')
+test('test should successfully filter when rule is "yabf:router:*"', t => {
+  const filter = new ScopeFilterRule('yabf:router:*')
   const goodScope = [
     'yabf:router',
     'yabf:router:http',
@@ -68,8 +68,8 @@ test.only('test should successfully filter when rule is "yabf:router:*"', t => {
   }
 })
 
-test.only('test should successfully filter when rule is "-yabf:router"', t => {
-  const filter = new LoggerScopeFilterRule('-yabf:router')
+test('test should successfully filter when rule is "-yabf:router"', t => {
+  const filter = new ScopeFilterRule('-yabf:router')
   const goodScope = [
     'yabf:router',
   ]
@@ -92,8 +92,8 @@ test.only('test should successfully filter when rule is "-yabf:router"', t => {
   }
 })
 
-test.only('test should successfully filter when rule is "-yabf:*"', t => {
-  const filter = new LoggerScopeFilterRule('-yabf:*')
+test('test should successfully filter when rule is "-yabf:*"', t => {
+  const filter = new ScopeFilterRule('-yabf:*')
   const goodScope = [
     'yabf:router',
     'yabf:injector',
@@ -116,8 +116,8 @@ test.only('test should successfully filter when rule is "-yabf:*"', t => {
   }
 })
 
-test.only('test should successfully filter when rule is "*"', t => {
-  const filter = new LoggerScopeFilterRule('*')
+test('test should successfully filter when rule is "*"', t => {
+  const filter = new ScopeFilterRule('*')
   const goodScope = [
     'yabf:router',
     'express:http',

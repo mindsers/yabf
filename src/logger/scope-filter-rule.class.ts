@@ -1,4 +1,4 @@
-export class LoggerScopeFilterRule {
+export class ScopeFilterRule {
   isExclusionRule = false
 
   private minimumRawFilter = ''

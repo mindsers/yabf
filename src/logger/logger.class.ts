@@ -1,7 +1,7 @@
 import { format } from 'util'
 
-import { LoggerScopeFilterRule } from './logger-scope-filter-rule.class'
 import { ILoggerScope } from './logger-scope.interface'
+import { ScopeFilterRuleSet } from './scope-filter-rule-set.class'
 
 const colors = [35, 33, 37, 32, 31, 36, 34]
 
@@ -10,14 +10,11 @@ export class LoggerService {
 
   private scopes: ILoggerScope[] = []
   private internalScope: ILoggerScope = { namespace: 'yabf:logger', color: 36 }
+  private filterSet: ScopeFilterRuleSet = new ScopeFilterRuleSet()
   private authorizedNamespaces: string[] = []
-  private namespaceFilters: { exclude: LoggerScopeFilterRule[]; include: LoggerScopeFilterRule[] } = {
-    exclude: [],
-    include: [],
-  }
 
   constructor(filtersString?: string) {
-    this.parseFilters(filtersString || '')
+    this.filterSet.parse(filtersString)
   }
 
   registerScope(namespace: string) {
@@ -98,42 +95,8 @@ export class LoggerService {
     return text.trim()
   }
 
-  private parseFilters(filtersString: string) {
-    const { env: { DEBUG = filtersString || '' } } = process
-
-    const filterList = (DEBUG == null ? [''] : DEBUG.split(','))
-      .map(representation => new LoggerScopeFilterRule(representation))
-    this.namespaceFilters = {
-      exclude: filterList.filter(filter => filter.isExclusionRule),
-      include: filterList.filter(filter => !filter.isExclusionRule),
-    }
-  }
-
   private updateAuthorizedNamespaces() {
     const namespaces = this.scopes.map(scope => scope.namespace)
-
-    this.authorizedNamespaces = this.filterNamespaces(namespaces)
-  }
-
-  private filterNamespaces(namespaces: string[] = []): string[] {
-    return namespaces
-      .filter(namespace => { // exclude
-        for (const filter of this.namespaceFilters.exclude) {
-          if (filter.test(namespace)) {
-            return false
-          }
-        }
-
-        return true
-      })
-      .filter(namespace => { // include
-        for (const filter of this.namespaceFilters.include) {
-          if (filter.test(namespace)) {
-            return true
-          }
-        }
-
-        return false
-      })
+    this.authorizedNamespaces = this.filterSet.filter(namespaces)
   }
 }
