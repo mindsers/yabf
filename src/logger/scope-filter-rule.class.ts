@@ -22,7 +22,7 @@ export class ScopeFilterRule {
     return `${exclusion}${scope}${wildcard}`
   }
 
-  test(namespace: string) {
+  test(namespace: string): boolean {
     const regex = new RegExp(`^${this.minimumRawFilter}`)
 
     if (!regex.test(namespace)) {

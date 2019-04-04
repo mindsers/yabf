@@ -1,25 +1,25 @@
 import { format } from 'util'
 
+import { ILogFunction } from './log-function.type'
+import { ILoggerOutput } from './logger-output.interface'
 import { ILoggerScope } from './logger-scope.interface'
 import { ScopeFilterRuleSet } from './scope-filter-rule-set.class'
 
 const colors = [35, 33, 37, 32, 31, 36, 34]
 
 export class LoggerService {
-  output: { write(message: string): void } = process.stderr
+  output: ILoggerOutput = process.stderr
 
   private scopes: ILoggerScope[] = []
-  private internalScope: ILoggerScope = { namespace: 'yabf:logger', color: 36 }
+  private authorizedNS: string[] = []
   private filterSet: ScopeFilterRuleSet = new ScopeFilterRuleSet()
-  private authorizedNamespaces: string[] = []
 
   constructor(filtersString?: string) {
     this.filterSet.parse(filtersString)
   }
 
-  registerScope(namespace: string) {
-    const isReserved = new RegExp(`^${this.internalScope.namespace}`)
-    if (isReserved.test(namespace)) {
+  registerScope(namespace: string): ILogFunction {
+    if (/^yabf:logger/.test(namespace)) {
       throw new Error(`Unable to register this scope. Do not use a reserved namespace`)
     }
 
@@ -43,7 +43,7 @@ export class LoggerService {
       throw new Error(`No scope found for namespace "${namespace}"`)
     }
 
-    if (!this.authorizedNamespaces.includes(namespace)) {
+    if (!this.authorizedNS.includes(namespace)) {
       return
     }
 
@@ -51,7 +51,7 @@ export class LoggerService {
   }
 
   private write(message: string, scope: ILoggerScope): void {
-    const [previousWriteTime, currentWriteTime] = this.checkScopeTimes(scope)
+    const [previousWriteTime, currentWriteTime] = this.getTimesForScope(scope)
 
     const prefix = `\x1b[${scope.color}m${scope.namespace}\x1b[0m`
     const suffix = `\x1b[${scope.color}m${this.computeHumanTime(previousWriteTime, currentWriteTime)}\x1b[0m`
@@ -66,7 +66,7 @@ export class LoggerService {
     }
   }
 
-  private checkScopeTimes(scope: ILoggerScope): [number, number] {
+  private getTimesForScope(scope: ILoggerScope): [number, number] {
     const currentWrite = Date.now()
     const { lastWrite = currentWrite } = scope
 
@@ -95,8 +95,8 @@ export class LoggerService {
     return text.trim()
   }
 
-  private updateAuthorizedNamespaces() {
+  private updateAuthorizedNamespaces(): void {
     const namespaces = this.scopes.map(scope => scope.namespace)
-    this.authorizedNamespaces = this.filterSet.filter(namespaces)
+    this.authorizedNS = this.filterSet.filter(namespaces)
   }
 }
