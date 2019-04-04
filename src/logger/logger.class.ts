@@ -117,7 +117,7 @@ export class LoggerService {
 
   private filterNamespaces(namespaces: string[] = []): string[] {
     return namespaces
-      .filter(namespace => { // include
+      .filter(namespace => { // exclude
         for (const filter of this.namespaceFilters.exclude) {
           if (filter.test(namespace)) {
             return false

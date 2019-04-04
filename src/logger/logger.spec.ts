@@ -4,32 +4,32 @@ import test from 'ava'
 import { LoggerService } from '../logger/logger.class'
 
 test('registerScope should return a log function', t => {
-  const service = new LoggerService()
+  const service = new LoggerService('*')
   const log = service.registerScope('a')
 
   t.true(typeof log === 'function')
 })
 
 test('log should fail if the scope isn\'t registered before', t => {
-  const service = new LoggerService()
+  const service = new LoggerService('*')
 
   t.throws(() => service.log('a', 'test'))
 })
 
 test('registerScope should throw an error if trying to register "yabf:logger"', t => {
-  const service = new LoggerService()
+  const service = new LoggerService('*')
 
   t.throws(() => service.registerScope('yabf:logger'))
 })
 
 test('registerScope should throw an error if trying to register a sub namespace of "yabf:logger"', t => {
-  const service = new LoggerService()
+  const service = new LoggerService('*')
 
   t.throws(() => service.registerScope('yabf:logger:bunyan'))
 })
 
 test('log should call output', t => {
-  const service = new LoggerService()
+  const service = new LoggerService('*')
   service.registerScope('a')
 
   let count = 0
@@ -45,7 +45,7 @@ test('log should call output', t => {
 })
 
 test('log function returned by registerScope should call output', t => {
-  const service = new LoggerService()
+  const service = new LoggerService('*')
   const log = service.registerScope('a')
 
   let count = 0
@@ -61,7 +61,7 @@ test('log function returned by registerScope should call output', t => {
 })
 
 test('log should write several line instead of using "\\n"', t => {
-  const service = new LoggerService()
+  const service = new LoggerService('*')
   const log = service.registerScope('a')
 
   let count = 0
@@ -77,7 +77,7 @@ test('log should write several line instead of using "\\n"', t => {
 })
 
 test.cb('log should add the time passed since last log call', t => {
-  const service = new LoggerService()
+  const service = new LoggerService('*')
   const log = service.registerScope('a')
 
   service.output = {
@@ -114,7 +114,7 @@ const messages = [
   { scope: 'yabf', text: 'text 1' },
 ]
 
-test.only('log should write message of "yabf:injector" if config equal "yabf:injector"', t => {
+test('log should write message of "yabf:injector" if filters equal "yabf:injector"', t => {
   const service = new LoggerService('yabf:injector')
   messages
     .reduce((a: { scope: string }[], c: { scope: string }) => {
@@ -137,7 +137,7 @@ test.only('log should write message of "yabf:injector" if config equal "yabf:inj
   messages.forEach(message => service.log(message.scope, message.text))
 })
 
-test.only('log should write message of "yabf:injector" if config equal "yabf:injector,express:*"', t => {
+test('log should write message of "yabf:injector" if filters equal "yabf:injector,express:*"', t => {
   const service = new LoggerService('yabf:injector,express:*')
   messages
     .reduce((a: { scope: string }[], c: { scope: string }) => {
@@ -160,7 +160,7 @@ test.only('log should write message of "yabf:injector" if config equal "yabf:inj
   messages.forEach(message => service.log(message.scope, message.text))
 })
 
-test.only('log should write message of "yabf:injector" if config equal "yabf:*,express:*"', t => {
+test('log should write message of "yabf:injector" if filters equal "yabf:*,express:*"', t => {
   const service = new LoggerService('yabf:*,express:*')
   messages
     .reduce((a: { scope: string }[], c: { scope: string }) => {
@@ -183,11 +183,262 @@ test.only('log should write message of "yabf:injector" if config equal "yabf:*,e
   messages.forEach(message => service.log(message.scope, message.text))
 })
 
-test.todo('log should write message of "yabf:injector" if config equal "*"')
-test.todo('log should write message of "yabf:injector" if config equal "*,-express"')
-test.todo('log should write message of "yabf:injector" if config equal "yabf:injector:*,-express"')
-test.todo('log should not write message of "yabf:injector" if config equal "*,-yabf"')
-test.todo('log should not write message of "yabf:injector" if config equal "*,-yabf:injector"')
-test.todo('log should not write message of "yabf:injector" if config equal "yabf:*,-yabf:injector"')
-test.todo('log should not write message of "yabf:injector" if config equal "yabf:application:*')
-test.todo('log should not write message of "yabf:injector" if config equal "yabf:application,yabf:router')
+test('log should write message of "yabf:injector" if filters equal "*"', t => {
+  const service = new LoggerService('*')
+  messages
+    .reduce((a: { scope: string }[], c: { scope: string }) => {
+      if (a.includes(c)) {
+        return a
+      }
+
+      return [...a, c]
+    }, [])
+    .map(message => message.scope)
+    .forEach(scope => {
+      service.registerScope(scope)
+    })
+
+  let count = 0
+  service.output = {
+    write(message) {
+      count = /(yabf:injector)/.test(message) ? count + 1 : count
+    },
+  }
+
+  messages.forEach(message => service.log(message.scope, message.text))
+  t.true(count > 0)
+})
+
+test('log should write message of "yabf:injector" if filters equal "*,-express"', t => {
+  const service = new LoggerService('*,-express')
+  messages
+    .reduce((a: { scope: string }[], c: { scope: string }) => {
+      if (a.includes(c)) {
+        return a
+      }
+
+      return [...a, c]
+    }, [])
+    .map(message => message.scope)
+    .forEach(scope => {
+      service.registerScope(scope)
+    })
+
+  let count = 0
+  service.output = {
+    write(message) {
+      count = /(yabf:injector)/.test(message) ? count + 1 : count
+    },
+  }
+
+  messages.forEach(message => service.log(message.scope, message.text))
+  t.true(count > 0)
+})
+
+test('log should write message of "yabf:injector" if filters equal "yabf:injector:*,-express"', t => {
+  const service = new LoggerService('yabf:injector:*,-express')
+  messages
+    .reduce((a: { scope: string }[], c: { scope: string }) => {
+      if (a.includes(c)) {
+        return a
+      }
+
+      return [...a, c]
+    }, [])
+    .map(message => message.scope)
+    .forEach(scope => {
+      service.registerScope(scope)
+    })
+
+  let count = 0
+  service.output = {
+    write(message) {
+      count = /(yabf:injector)/.test(message) ? count + 1 : count
+    },
+  }
+
+  messages.forEach(message => service.log(message.scope, message.text))
+  t.true(count > 0)
+})
+
+test('log should write message of "yabf:injector" if filters equal "*,-yabf"', t => {
+  const service = new LoggerService('*,-yabf')
+  messages
+    .reduce((a: { scope: string }[], c: { scope: string }) => {
+      if (a.includes(c)) {
+        return a
+      }
+
+      return [...a, c]
+    }, [])
+    .map(message => message.scope)
+    .forEach(scope => {
+      service.registerScope(scope)
+    })
+
+  let count = 0
+  service.output = {
+    write(message) {
+      count = /(yabf:injector)/.test(message) ? count + 1 : count
+    },
+  }
+
+  messages.forEach(message => service.log(message.scope, message.text))
+  t.true(count > 0)
+})
+
+test('log should not write message of "yabf:injector" if filters equal "*,-yabf:*"', t => {
+  const service = new LoggerService('*,-yabf:*')
+  messages
+    .reduce((a: { scope: string }[], c: { scope: string }) => {
+      if (a.includes(c)) {
+        return a
+      }
+
+      return [...a, c]
+    }, [])
+    .map(message => message.scope)
+    .forEach(scope => {
+      service.registerScope(scope)
+    })
+
+  let count = 0
+  service.output = {
+    write(message) {
+      count = /(yabf:injector)/.test(message) ? count + 1 : count
+    },
+  }
+
+  messages.forEach(message => service.log(message.scope, message.text))
+  t.true(count === 0)
+})
+
+test('log should not write message of "yabf:injector" if filters equal "*,-yabf:injector"', t => {
+  const service = new LoggerService('*,-yabf:injector')
+  messages
+    .reduce((a: { scope: string }[], c: { scope: string }) => {
+      if (a.includes(c)) {
+        return a
+      }
+
+      return [...a, c]
+    }, [])
+    .map(message => message.scope)
+    .forEach(scope => {
+      service.registerScope(scope)
+    })
+
+  let count = 0
+  service.output = {
+    write(message) {
+      count = /(yabf:injector[^:])/.test(message) ? count + 1 : count
+    },
+  }
+
+  messages.forEach(message => service.log(message.scope, message.text))
+  t.true(count === 0)
+})
+
+test('log should not write message of "yabf:injector" if filters equal "*,-yabf:injector:*"', t => {
+  const service = new LoggerService('*,-yabf:injector:*')
+  messages
+    .reduce((a: { scope: string }[], c: { scope: string }) => {
+      if (a.includes(c)) {
+        return a
+      }
+
+      return [...a, c]
+    }, [])
+    .map(message => message.scope)
+    .forEach(scope => {
+      service.registerScope(scope)
+    })
+
+  let count = 0
+  service.output = {
+    write(message) {
+      count = /(yabf:injector)/.test(message) ? count + 1 : count
+    },
+  }
+
+  messages.forEach(message => service.log(message.scope, message.text))
+  t.true(count === 0)
+})
+
+test('log should not write message of "yabf:injector" if filters equal "yabf:*,-yabf:injector"', t => {
+  const service = new LoggerService('yabf:*,-yabf:injector')
+  messages
+    .reduce((a: { scope: string }[], c: { scope: string }) => {
+      if (a.includes(c)) {
+        return a
+      }
+
+      return [...a, c]
+    }, [])
+    .map(message => message.scope)
+    .forEach(scope => {
+      service.registerScope(scope)
+    })
+
+  let count = 0
+  service.output = {
+    write(message) {
+      count = /(yabf:injector[^:])/.test(message) ? count + 1 : count
+    },
+  }
+
+  messages.forEach(message => service.log(message.scope, message.text))
+  t.true(count === 0)
+})
+
+test('log should not write message of "yabf:injector" if filters equal "yabf:application:*', t => {
+  const service = new LoggerService('yabf:application:*')
+  messages
+    .reduce((a: { scope: string }[], c: { scope: string }) => {
+      if (a.includes(c)) {
+        return a
+      }
+
+      return [...a, c]
+    }, [])
+    .map(message => message.scope)
+    .forEach(scope => {
+      service.registerScope(scope)
+    })
+
+  let count = 0
+  service.output = {
+    write(message) {
+      count = /(yabf:injector)/.test(message) ? count + 1 : count
+    },
+  }
+
+  messages.forEach(message => service.log(message.scope, message.text))
+  t.true(count === 0)
+})
+
+test('log should not write message of "yabf:injector" if filters equal "yabf:application,yabf:router', t => {
+  const service = new LoggerService('yabf:application:*')
+  messages
+    .reduce((a: { scope: string }[], c: { scope: string }) => {
+      if (a.includes(c)) {
+        return a
+      }
+
+      return [...a, c]
+    }, [])
+    .map(message => message.scope)
+    .forEach(scope => {
+      service.registerScope(scope)
+    })
+
+  let count = 0
+  service.output = {
+    write(message) {
+      count = /(yabf:injector)/.test(message) ? count + 1 : count
+    },
+  }
+
+  messages.forEach(message => service.log(message.scope, message.text))
+  t.true(count === 0)
+})
