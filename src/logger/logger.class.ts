@@ -15,7 +15,7 @@ export class LoggerService {
   private filterSet: ScopeFilterRuleSet = new ScopeFilterRuleSet()
 
   constructor(filtersString?: string) {
-    this.filterSet.parse(filtersString)
+    this.filterSet.parse(process.env.DEBUG || filtersString)
   }
 
   registerScope(namespace: string): ILogFunction {

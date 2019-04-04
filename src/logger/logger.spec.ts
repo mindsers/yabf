@@ -93,3 +93,28 @@ test.cb('log should add the time passed since last log call', t => {
     t.end()
   }, 80)
 })
+
+test.todo('user should be able to update filters using injection token')
+
+test('user should be able to update filters using env vars DEBUG', t => {
+  process.env.DEBUG = 'test:*,-test:b:*'
+
+  const service = new LoggerService()
+  const logA = service.registerScope('test:a')
+  const logB = service.registerScope('test:b')
+  const logBA = service.registerScope('test:b:a')
+  const logC = service.registerScope('test:c')
+  const logD = service.registerScope('test:d')
+
+  service.output = {
+    write(message: string) {
+      t.false(/test:b/.test(message))
+    },
+  }
+
+  logA('coucou')
+  logB('coucou')
+  logC('coucou')
+  logD('coucou')
+  logBA('coucou')
+})
