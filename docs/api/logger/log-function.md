@@ -1,4 +1,4 @@
-# LogFunction (Function)
+# LogFunction (function)
 
 ```ts
 type LogFunction = (message: string) => void
