@@ -14,8 +14,8 @@ export class LoggerService {
   private authorizedNS: string[] = []
   private filterSet: ScopeFilterRuleSet = new ScopeFilterRuleSet()
 
-  constructor(filtersString?: string) {
-    this.filterSet.parse(process.env.DEBUG || filtersString)
+  constructor() {
+    this.filterSet.parse(process.env.DEBUG)
   }
 
   registerScope(namespace: string): ILogFunction {
