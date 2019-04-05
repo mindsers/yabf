@@ -13,3 +13,4 @@
 ### Recipes ([complete list](./recipes/recipes.md))
 
 - [Create your own Application type](./recipes/create-new-application-type.md)
+- [Use the default *YABF* logger](./recipes/use-logger-service.md)
