@@ -6,8 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- New lightweight `LoggerService` compatible w/ the debug package ([#35](https://github.com/Mindsers/yabf/issues/35))
-- New documentation block for `LoggerService` ([#35](https://github.com/Mindsers/yabf/issues/35))
+- New lightweight `LoggerService` compatible w/ the debug package ([#35](https://github.com/Mindsers/yabf/issues/35), [#36](https://github.com/Mindsers/yabf/pull/36))
+- New documentation block for `LoggerService` ([#36](https://github.com/Mindsers/yabf/pull/36))
 
 ## [v2.0.2] - 2018-11-25
 ### Changes
