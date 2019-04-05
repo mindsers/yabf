@@ -1,1 +1,1 @@
-export type ILogFunction = (message: string) => void
+export type LogFunction = (message: string) => void

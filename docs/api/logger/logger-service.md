@@ -6,7 +6,7 @@ abstract class LoggerService {
 
   constructor()
 
-  registerScope(namespace: string): ILogFunction
+  registerScope(namespace: string): LogFunction
   log(namespace: string, message: string): void
 }
 ```
@@ -34,7 +34,7 @@ No parameters.
 `LoggerService` write messages within a scope. You can register a new scope using this method.
 
 ```ts
-registerScope(namespace: string): ILogFunction
+registerScope(namespace: string): LogFunction
 ```
 
 ### Paramaters
@@ -43,7 +43,7 @@ registerScope(namespace: string): ILogFunction
 
 ### Returns
 
-Return a simple log function which writes messages in the predefined scope. See `ILogFunction` for more details.
+Return a simple log function which writes messages in the predefined scope. [See `LogFunction` for more details](./log-function.md).
 
 ## # log()
 

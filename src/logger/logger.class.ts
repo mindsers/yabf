@@ -1,6 +1,6 @@
 import { format } from 'util'
 
-import { ILogFunction } from './log-function.type'
+import { LogFunction } from './log-function.type'
 import { ILoggerOutput } from './logger-output.interface'
 import { ILoggerScope } from './logger-scope.interface'
 import { ScopeFilterRuleSet } from './scope-filter-rule-set.class'
@@ -18,7 +18,7 @@ export class LoggerService {
     this.filterSet.parse(process.env.DEBUG)
   }
 
-  registerScope(namespace: string): ILogFunction {
+  registerScope(namespace: string): LogFunction {
     if (/^yabf:logger/.test(namespace)) {
       throw new Error(`Unable to register this scope. Do not use a reserved namespace`)
     }

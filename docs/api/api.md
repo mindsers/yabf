@@ -11,3 +11,5 @@ You'll find here the entire Yabf API.
 - [Route](./router/route.md) (interface)
 - [Request](./http/request.md) (class)
 - [Response](./http/response.md) (class)
+- [LoggerService](./logger/logger-service.md) (class)
+- [LogFunction](./logger/log-function.md) (class)

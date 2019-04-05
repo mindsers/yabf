@@ -8,6 +8,7 @@
 - [Route](./api/router/route.md)
 - [Request](./api/http/request.md)
 - [Response](./api/http/response.md)
+- [LoggerService](./api/logger/logger-service.md)
 
 ### Recipes ([complete list](./recipes/recipes.md))
 
