@@ -1,7 +1,7 @@
 // tslint:disable-next-line:no-implicit-dependencies
 import test from 'ava'
 
-import { LoggerService } from '../logger/logger.class'
+import { LoggerService } from './logger.class'
 
 test('registerScope should return a log function', t => {
   process.env.DEBUG = '*'
@@ -114,8 +114,6 @@ test.cb('log should add the time passed since last log call', t => {
     t.end()
   }, 80)
 })
-
-test.todo('user should be able to update filters using injection token')
 
 test('user should be able to update filters using env vars DEBUG', t => {
   process.env.DEBUG = 'test:*,-test:b:*'

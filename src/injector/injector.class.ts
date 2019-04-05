@@ -12,10 +12,6 @@ export class InjectorService implements IDependencyInjectionProvider {
   private data: InjectionData[] = []
   private log?: (message: string) => void
 
-  constructor(loggerService: LoggerService) {
-    this.log = loggerService.registerScope('yabf:injector')
-  }
-
   static getMainInstance(): InjectorService {
     const existingInstance = InjectorService.instances
       .find(instance => instance.value instanceof InjectorService)
@@ -24,13 +20,18 @@ export class InjectorService implements IDependencyInjectionProvider {
       return existingInstance.value as InjectorService
     }
 
-    const logger = new LoggerService()
-    const injector = new InjectorService(logger)
+    const injector = new InjectorService()
 
     injector.provide({ identity: InjectorService, useValue: injector })
-    injector.provide({ identity: LoggerService, useValue: logger })
+    injector.provide(LoggerService)
+
+    injector.addLoggerService(injector.get(LoggerService) as LoggerService)
 
     return injector.get(InjectorService) as InjectorService
+  }
+
+  addLoggerService(loggerService: LoggerService) {
+    this.log = loggerService.registerScope('yabf:injector')
   }
 
   provide<C>(givenData: InjectionType<C>): void
