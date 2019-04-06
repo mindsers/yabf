@@ -55,10 +55,10 @@ export class CLIApplication extends AbstractApplication {
 
 ## Inject new dependency
 
-To inject new dependencies, you have to owerwrite the `constructor` and add the instructions in `buildInstructions()` method.
+To inject new dependencies, you have to owerwrite the `constructor` and add the instructions in `buildInstructions()` method.
 
 ```ts
-export class CLIApplication extends AbstractApplication {
+export class CLIApplication extends AbstractApplication {
   constructor(injector: IDependencyInjectionProvider, private parser: CLIParser) {
     super(injector)
   }
