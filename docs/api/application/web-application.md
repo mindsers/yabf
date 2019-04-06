@@ -1,7 +1,7 @@
 # WebApplication (class)
 
 ```ts
-class WebApplication extends Application {
+class WebApplication extends AbstractApplication {
   constructor(injectorService: InjectorService, routerService: RouterService, loggerService: LoggerService)
 
   static createInstance(): WebApplication
@@ -13,7 +13,7 @@ class WebApplication extends Application {
 }
 ```
 
-The `WebApplication` class extends [`Application` abstract class](./application.md).
+The `WebApplication` class extends [`AbstractApplication` class](./abstract-application.md).
 
 ## Description
 

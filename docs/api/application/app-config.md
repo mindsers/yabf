@@ -47,7 +47,7 @@ app.start()
 
 ## Properties
 
-- `server.port`: (required) The port number listen by the server. Set to `8080` by default.
+- `server.port`: **(required)** The port number listen by the server. Set to `8080` by default.
 - `assests.location`: The path where are stored your assets.
 - `locales.list`: Locale list supported by your application. Set to `['en']` by default.
 - `locale.default`: Primary locale of your application. Set to the first element of `locales.list` by default.
