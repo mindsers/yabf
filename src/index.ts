@@ -13,3 +13,5 @@ export * from './http/response.class'
 export * from './http/http-method.enum'
 
 export * from './router/route.interface'
+
+export * from './logger/logger.class'

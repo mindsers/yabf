@@ -7,11 +7,11 @@ import { Request as RequestHelper } from '../http/request.class'
 import { Response as ResponseHelper } from '../http/response.class'
 import { InjectionClass } from '../injector/injection-class.interface'
 import { InjectorService } from '../injector/injector.class'
+import { LoggerService } from '../logger/logger.class'
 
 import { IConsolidatedRoute } from './consolidated-route.interface'
 
 export class RouterService {
-
   get controllers(): Controller[] {
     return this._controllers
       .map(controllerName => this.injectorService.get(controllerName))
@@ -35,6 +35,7 @@ export class RouterService {
       .filter(route => typeof route.action === 'function')
   }
 
+  private log: (message: string) => void
   private _controllers: InjectionClass<Controller>[] = []
   private cors: { enabled: boolean; allowedOrigins: string[]; allowedHeaders: string[] } = {
     allowedHeaders: [],
@@ -42,7 +43,9 @@ export class RouterService {
     enabled: false,
   }
 
-  constructor(private injectorService: InjectorService) {}
+  constructor(private injectorService: InjectorService, loggerService: LoggerService) {
+    this.log = loggerService.registerScope('yabf:router')
+  }
 
   enableCORS(origins: string[], headers: string[] = []): void {
     this.cors.enabled = true
@@ -78,6 +81,8 @@ export class RouterService {
     }
 
     const responseHelper = await this.processResponse(requestHelper)
+
+    this.log(`${requestHelper.method} ${requestHelper.pathname} : ${responseHelper.errorCode}`)
 
     if (this.cors.enabled) {
       this.addCORSHeadersToResponse(responseHelper, requestHelper)

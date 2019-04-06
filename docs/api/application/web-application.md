@@ -2,7 +2,7 @@
 
 ```ts
 class WebApplication extends Application {
-  constructor(injectorService: InjectorService, routerService: RouterService)
+  constructor(injectorService: InjectorService, routerService: RouterService, loggerService: LoggerService)
 
   static createInstance(): WebApplication
 
@@ -24,13 +24,14 @@ An implementation of `Application` designed for the web. Add support for `Contro
 Initialize `WebApplication` instance.
 
 ```ts
-constructor(injectorService: InjectorService, routerService: RouterService)
+constructor(injectorService: InjectorService, routerService: RouterService, loggerService: LoggerService)
 ```
 
 ### Parameters
 
 - `injectorService`: the service that have the responsibility to create and inject objects.
 - `routerService`: the service that have the responsibility to resolve routes and call right controllers.
+- `loggerService`: the service that have the responsibility to write debug logs depending on configuration.
 
 ## Methods
 ## # provide()
