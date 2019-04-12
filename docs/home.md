@@ -8,7 +8,9 @@
 - [Route](./api/router/route.md)
 - [Request](./api/http/request.md)
 - [Response](./api/http/response.md)
+- [LoggerService](./api/logger/logger-service.md)
 
 ### Recipes ([complete list](./recipes/recipes.md))
 
 - [Create your own Application type](./recipes/create-new-application-type.md)
+- [Use the default *YABF* logger](./recipes/use-logger-service.md)
