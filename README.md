@@ -3,15 +3,15 @@
 [![npm](https://img.shields.io/npm/v/yabf.svg?style=flat-square)](https://www.npmjs.com/package/yabf)
 [![npm](https://img.shields.io/npm/dt/yabf.svg?style=flat-square)](https://www.npmjs.com/package/yabf)
 [![npm](https://img.shields.io/npm/l/yabf.svg?style=flat-square)](https://github.com/Mindsers/yabf/blob/master/LICENSE)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
 [![Patreon](https://img.shields.io/badge/support-patreon-F96854.svg?logo=patreon&style=flat-square)](https://www.patreon.com/bePatron?u=9715649)
 [![Discord](https://img.shields.io/badge/chat-discord-7289DA.svg?logo=discord&logoColor=7289DA&style=flat-square)](https://discord.gg/AtKK45B)
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 **Yet Another Basic Framework** for NodeJS.
 
 It is a learning experience: I wouldn't use [expressjs](https://expressjs.com) as usual but learn how to make/code dependency injection, routing, http requests, and other development patterns/paradigms/concepts by myself.
 
-It can be use as a base for server projects. Of course so much things are missing and you will have to develop it yourself or create an [issue in this repo](https://github.com/Mindsers/yabf/issues).
+It can be use as a base for server projects. Of course so much things are missing and you will have to develop it yourself or create an [issue in this repo](https://github.com/mindsers/yabf/issues).
 
 *Yabf* work either with JavaScript and TypeScript projects.
 
@@ -54,11 +54,11 @@ app.provide(MailService)
 app.declare(MainController, [MailService])
 ```
 
-For more details, please refer to the [wiki](https://github.com/Mindsers/yabf/wiki) or [docs files](https://github.com/Mindsers/yabf/tree/develop/docs).
+For more details, please refer to the [wiki](https://github.com/mindsers/yabf/wiki) or [docs files](https://github.com/mindsers/yabf/tree/develop/docs).
 
 ## Contribution
 
-Contributions to the source code of *Yabf* are welcomed and greatly appreciated. For help on how to contribute in this project, please refer to [How to contribute to *Yabf*](https://github.com/Mindsers/yabf/blob/develop/CONTRIBUTING.md).
+Contributions to the source code of *Yabf* are welcomed and greatly appreciated. For help on how to contribute in this project, please refer to [How to contribute to *Yabf*](https://github.com/mindsers/yabf/blob/develop/CONTRIBUTING.md).
 
 To see the contributors list, go to the [CONTRIBUTORS.md](https://github.com/mindsers/yabf/blob/develop/CONTRIBUTORS.md) file.
 
