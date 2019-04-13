@@ -29,7 +29,7 @@
     "eslint-plugin-standard": "4.0.0",
     "ts-node": "7.0.1",
     "tslint": "5.11.0",
-    "typescript": "3.0.3"
+    "typescript": "3.4.3"
   },
   "engines": {
     "yarn": "^1.0.0"
