@@ -1,7 +1,7 @@
 import { IDependencyInjectionProvider } from '../injector/dependency-injector.interface'
-import { InjectionClass } from '../injector/injection-class.interface'
+import { InjectionClass } from '../injector/injection-class.type'
 import { InjectionSelector } from '../injector/injection-selector.type'
-import { InjectionType } from '../injector/injection-type.interface'
+import { IInjectionType } from '../injector/injection-type.interface'
 import { InjectorService } from '../injector/injector.class'
 import { MissingBuildInstruction } from './missing-build-instruction-error.class'
 
@@ -31,9 +31,9 @@ export abstract class AbstractApplication {
 
   constructor(protected injectorService: IDependencyInjectionProvider) {}
 
-  provide<C>(className: InjectionType<C>): void
+  provide<C>(className: IInjectionType<C>): void
   provide<C>(className: InjectionClass<C>, dependencies?: InjectionSelector<any>[]): void
-  provide<C>(className: InjectionClass<C>|InjectionType<C>, dependencies?: InjectionSelector<any>[]): void {
+  provide<C>(className: InjectionClass<C>|IInjectionType<C>, dependencies?: InjectionSelector<any>[]): void {
     this.injectorService.provide(className as InjectionClass<C>, dependencies)
   }
 

@@ -1,15 +1,15 @@
 import { LoggerService } from '../logger/logger.class'
 
 import { IDependencyInjectionProvider } from './dependency-injector.interface'
-import { InjectionClass } from './injection-class.interface'
+import { InjectionClass } from './injection-class.type'
 import { InjectionSelector } from './injection-selector.type'
 import { InjectionToken } from './injection-token.class'
-import { InjectionType } from './injection-type.interface'
+import { IInjectionType } from './injection-type.interface'
 
 export class InjectorService implements IDependencyInjectionProvider {
-  static instances: InjectorInstance<any>[] = []
+  static instances: IInjectorInstance<any>[] = []
 
-  private data: InjectionData[] = []
+  private data: IInjectionData[] = []
   private log?: (message: string) => void
 
   static getMainInstance(): InjectorService {
@@ -34,9 +34,9 @@ export class InjectorService implements IDependencyInjectionProvider {
     this.log = loggerService.registerScope('yabf:injector')
   }
 
-  provide<C>(givenData: InjectionType<C>): void
+  provide<C>(givenData: IInjectionType<C>): void
   provide<C>(givenData: InjectionClass<C>, params?: InjectionSelector<any>[], singleton?: boolean): void
-  provide<C>(givenData: InjectionClass<C>|InjectionType<C>, params: InjectionSelector<any>[] = [], singleton = true) {
+  provide<C>(givenData: InjectionClass<C>|IInjectionType<C>, params: InjectionSelector<any>[] = [], singleton = true) {
     const data = this.buildPovidedData(givenData)
 
     if (data == null || (data.useClass == null && data.useValue == null)) {
@@ -92,8 +92,8 @@ export class InjectorService implements IDependencyInjectionProvider {
     return instance.value as C
   }
 
-  private buildInstanceFromData<C>(data: InjectionData): InjectorInstance<C> {
-    let instance: InjectorInstance<C> | null = null
+  private buildInstanceFromData<C>(data: IInjectionData): IInjectorInstance<C> {
+    let instance: IInjectorInstance<C> | null = null
 
     if (data.useClass != null) {
       const Class = data.useClass // tslint:disable-line:variable-name
@@ -112,10 +112,10 @@ export class InjectorService implements IDependencyInjectionProvider {
       }
     }
 
-    return instance as InjectorInstance<C>
+    return instance as IInjectorInstance<C>
   }
 
-  private buildPovidedData<C>(givenData: InjectionClass<C>|InjectionType<C>): InjectionData|null {
+  private buildPovidedData<C>(givenData: InjectionClass<C>|IInjectionType<C>): IInjectionData|null {
     const defaultProps = {
       constructorParams: [],
       singleton: true,
@@ -151,12 +151,12 @@ export class InjectorService implements IDependencyInjectionProvider {
   }
 }
 
-interface InjectionData extends InjectionType<any> {
+interface IInjectionData extends IInjectionType<any> {
   constructorParams: InjectionSelector<any>[]
   singleton: boolean
 }
 
-interface InjectorInstance<I> {
+interface IInjectorInstance<I> {
   identity: InjectionSelector<I>
   value: any
 }
