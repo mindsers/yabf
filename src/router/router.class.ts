@@ -5,7 +5,7 @@ import { Controller } from '../controller/controller.class'
 import { HttpMethod } from '../http/http-method.enum'
 import { Request as RequestHelper } from '../http/request.class'
 import { Response as ResponseHelper } from '../http/response.class'
-import { InjectionClass } from '../injector/injection-class.interface'
+import { InjectionClass } from '../injector/injection-class.type'
 import { InjectorService } from '../injector/injector.class'
 import { LoggerService } from '../logger/logger.class'
 

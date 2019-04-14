@@ -1,7 +1,7 @@
 import * as http from 'http'
 
 import { Controller } from '../controller/controller.class'
-import { InjectionClass } from '../injector/injection-class.interface'
+import { InjectionClass } from '../injector/injection-class.type'
 import { InjectionSelector } from '../injector/injection-selector.type'
 import { InjectorService } from '../injector/injector.class'
 import { LoggerService } from '../logger/logger.class'

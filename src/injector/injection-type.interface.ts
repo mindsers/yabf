@@ -1,7 +1,7 @@
-import { InjectionClass } from './injection-class.interface'
+import { InjectionClass } from './injection-class.type'
 import { InjectionSelector } from './injection-selector.type'
 
-export interface InjectionType<T> {
+export interface IInjectionType<T> {
   identity: InjectionSelector<T>
   useValue?: any
   useClass?: InjectionClass<any>
