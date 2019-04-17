@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - New documentation block for `LoggerService` ([!36](https://github.com/Mindsers/yabf/pull/36))
 - Yabf adopts a new *code of conduct* to enforce a harassement-free experience for everyone in the community
 
+### Changed
+- Upgrade some dependencies
+
 ### Fixed
 - Remove a disapointing log message
 
