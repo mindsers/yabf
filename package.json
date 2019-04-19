@@ -9,12 +9,9 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "posttest": "rm -rf tests",
-    "test:unit": "ava tests/**/*.spec.js",
+    "test:unit": "ava",
     "test:lint": "tslint -p tsconfig.json -c tslint.json 'src/**/*.ts'",
     "test": "yarn test:lint && yarn test:unit",
-    "pretest": "yarn build:test",
-    "build:test": "tsc -p tsconfig.test.json",
     "build": "tsc",
     "prepublishOnly": "yarn build"
   },
