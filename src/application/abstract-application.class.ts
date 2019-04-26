@@ -11,7 +11,9 @@ export abstract class AbstractApplication {
     const [appData, ...data] = this.prototype.buildInstructions()
 
     if (appData == null) {
-      throw new MissingBuildInstruction(`Unable to build ${this.constructor.name}. Build instruction is missing.`)
+      throw new MissingBuildInstruction(
+        `Unable to build ${this.prototype.constructor.name}. Build instruction is missing.`,
+      )
     }
 
     const app = injector.get(appData.provide) as T

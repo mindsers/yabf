@@ -66,7 +66,6 @@
         "allow-static-only"
       ],
       "no-unused-expression": true,
-      "no-unused-variable": true,
       "no-var-keyword": true,
       "prefer-object-spread": true,
       "switch-default": true,

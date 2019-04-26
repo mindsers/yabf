@@ -8,11 +8,13 @@ import { RouterService } from '../router/router.class'
 import { WebApplication } from './web-application.class'
 
 test('starting', t => {
+  let app = null
+
   t.notThrows(() => {
-    const app = new WebApplication(
+    app = new WebApplication(
       {} as InjectorService,
       {} as RouterService,
-      { registerScope: (scope: string) => { /**/ } } as LoggerService,
+      { registerScope: (_scope: string) => { /**/ } } as LoggerService,
     )
   })
 })
