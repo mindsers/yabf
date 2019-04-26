@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Remove a disapointing log message.
 - Fix typo error on the ava config. Due to this error the avajs never worked as expected.
+- Error about build instructions are clearer. The name of the class is correctly specified.
 
 ## [v2.0.2] - 2018-11-25
 ### Changes
