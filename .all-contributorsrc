@@ -1,0 +1,35 @@
+{
+  "files": [
+    "CONTRIBUTORS.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "mindsers",
+      "name": "Nathanael CHERRIER",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/3090112?v=4",
+      "profile": "https://nathanaelcherrier.com",
+      "contributions": [
+        "blog",
+        "code",
+        "maintenance",
+        "doc"
+      ]
+    },
+    {
+      "login": "MaevaBouh",
+      "name": "MaevaBouh",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/43937565?v=4",
+      "profile": "https://github.com/MaevaBouh",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "yabf",
+  "projectOwner": "mindsers",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}

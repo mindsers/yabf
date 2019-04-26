@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v2.1.0] - 2019-04-12
+### Added
+- New lightweight `LoggerService` compatible w/ the debug package. ([#35](https://github.com/Mindsers/yabf/issues/35), [!36](https://github.com/Mindsers/yabf/pull/36))
+- New documentation block for `LoggerService`. ([!36](https://github.com/Mindsers/yabf/pull/36))
+- Yabf adopts a new *code of conduct* to enforce a harassement-free experience for everyone in the community.
+
+### Changed
+- Upgrade some dependencies.
+- Optimize build steps.
+
+### Fixed
+- Remove a disapointing log message.
+- Fix typo error on the ava config. Due to this error the avajs never worked as expected.
+- Error about build instructions are clearer. The name of the class is correctly specified.
+
 ## [v2.0.2] - 2018-11-25
 ### Changes
 - Let TypScript handles dependencies auto-instancation. (Cancel [v2.0.1])
@@ -40,6 +55,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Add `Request` and `Response` to abstract logic of HTTP request and response.
 
 [Unreleased]: https://github.com/Mindsers/yabf/tree/develop
+[v2.1.0]: https://github.com/Mindsers/yabf/tree/v2.1.0
 [v2.0.2]: https://github.com/Mindsers/yabf/tree/v2.0.2
 [v2.0.1]: https://github.com/Mindsers/yabf/tree/v2.0.1
 [v2.0.0]: https://github.com/Mindsers/yabf/tree/v2.0.0

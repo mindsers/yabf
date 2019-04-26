@@ -1,6 +1,6 @@
 # Create a new Application type
 
-For some project you may want to use your own Application type because any of the existing in *YABF* match your requirements. However if you want to use some generic tools provided by *YABF* you can [inherit from `AbstractApplication`](../api/abstract-application.md).
+For some project you may want to use your own Application type because any of the existing in *YABF* match your requirements. However if you want to use some generic tools provided by *YABF* you can [inherit from `AbstractApplication`](../api/application/abstract-application.md).
 
 Here is a recipe about "How to create a new Application type".
 
@@ -55,10 +55,10 @@ export class CLIApplication extends AbstractApplication {
 
 ## Inject new dependency
 
-To inject new dependencies, you have to owerwrite the `constructor` and add the instructions in `buildInstructions()` method.
+To inject new dependencies, you have to owerwrite the `constructor` and add the instructions in `buildInstructions()` method.
 
 ```ts
-export class CLIApplication extends AbstractApplication {
+export class CLIApplication extends AbstractApplication {
   constructor(injector: IDependencyInjectionProvider, private parser: CLIParser) {
     super(injector)
   }

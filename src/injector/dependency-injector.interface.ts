@@ -1,8 +1,8 @@
-import { InjectionClass } from './injection-class.interface'
+import { InjectionClass } from './injection-class.type'
 import { InjectionSelector } from './injection-selector.type'
-import { InjectionType } from './injection-type.interface'
+import { IInjectionType } from './injection-type.interface'
 
 export interface IDependencyInjectionProvider {
-  provide<C>(id: InjectionClass<C>|InjectionType<C>, params?: InjectionSelector<any>[], singleton?: boolean): void
+  provide<C>(id: InjectionClass<C>|IInjectionType<C>, params?: InjectionSelector<any>[], singleton?: boolean): void
   get<C>(id: InjectionSelector<C>): C | null
 }
