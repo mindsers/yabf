@@ -25,7 +25,7 @@ yarn add yabf@latest
 
 ## Usage
 
-*Yabf* works with controller and services. To load your controllers and services there are two methods in `WebApplication`: `declare` for controllers and `prodive` for services or data.
+*Yabf* works with controller and services. To load your controllers and services there are two methods in `WebApplication`: `declare` for controllers and `provide` for services or data.
 
 After declaring all your classes, you have to start the server.
 
