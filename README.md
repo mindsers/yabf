@@ -5,7 +5,7 @@
 [![npm](https://img.shields.io/npm/l/yabf.svg?style=flat-square)](https://github.com/Mindsers/yabf/blob/master/LICENSE)
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors)
 [![Patreon](https://img.shields.io/badge/support-patreon-F96854.svg?logo=patreon&style=flat-square)](https://www.patreon.com/bePatron?u=9715649)
-[![Discord](https://img.shields.io/badge/chat-discord-7289DA.svg?logo=discord&logoColor=7289DA&style=flat-square)](https://discord.gg/AtKK45B)
+[![Discourse](https://img.shields.io/discourse/https/community.nathanaelcherrier.com/posts.svg?color=00aeef&logo=discourse&logoColor=00aeef&style=flat-square)](https://community.nathanaelcherrier.com)
 
 **Yet Another Basic Framework** for NodeJS.
 
