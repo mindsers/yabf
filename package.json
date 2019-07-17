@@ -16,7 +16,7 @@
     "prepublishOnly": "yarn build"
   },
   "devDependencies": {
-    "@types/node": "12.6.1",
+    "@types/node": "12.6.6",
     "ava": "2.2.0",
     "eslint": "6.0.1",
     "eslint-config-standard": "13.0.1",
