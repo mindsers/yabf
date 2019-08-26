@@ -2,15 +2,15 @@
 
 
 ## Know more
-### API ([complete list](./api/api.md))
+### API ([complete list](api))
 
-- [WebApplication](./api/application/web-application.md)
-- [Route](./api/router/route.md)
-- [Request](./api/http/request.md)
-- [Response](./api/http/response.md)
-- [LoggerService](./api/logger/logger-service.md)
+- [WebApplication](web-application)
+- [Route](route)
+- [Request](request)
+- [Response](response)
+- [LoggerService](logger-service)
 
-### Recipes ([complete list](./recipes/recipes.md))
+### Recipes ([complete list](recipes))
 
-- [Create your own Application type](./recipes/create-new-application-type.md)
-- [Use the default *YABF* logger](./recipes/use-logger-service.md)
+- [Create your own Application type](create-new-application-type)
+- [Use the default *YABF* logger](use-logger-service)
