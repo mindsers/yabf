@@ -34,7 +34,7 @@ class YourService {
 }
 ```
 
-Of course, this method works also for [the other children of `AbstractApplication`.](./create-new-application-type.md)
+Of course, this method works also for [the other children of `AbstractApplication`.](create-new-application-type)
 
 ## What's a scope?
 
