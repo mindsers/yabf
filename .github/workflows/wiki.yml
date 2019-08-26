@@ -24,7 +24,7 @@ jobs:
     - name: Copy docs files
       run: |
         cp -R docs/* wiki/
-        find . -type f -name "./wiki/*.md" -print0 | xargs -0 sed -i '' -e "s/\(\.\/.*\/(.*)\.md\)/\($1)\)/gm" {}
+        find . -type f -name "./wiki/*.md" -exec sed -i "s/\(\.\/.*\/(.*)\.md\)/\($1)\)/gm" {} \;
     - name: Deploy docs to GH Wiki
       run: |
         cd wiki
