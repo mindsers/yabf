@@ -9,11 +9,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Deploy docs to GH Wiki
+    - name: Init wiki repo
       run: |
         cd ./docs
         git init
         git remote add origin $GITHUB_REPOSITORY.wiki.git
+        git config user.email "dev@nathanaelcherrier.com"
+        git config user.name "Nathanaël Cherrier (CI)"
+    - name: Deploy docs to GH Wiki
+      run: |
         git add .
         git commit -m "Update wiki after release"
         git push -f
