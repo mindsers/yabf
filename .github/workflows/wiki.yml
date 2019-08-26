@@ -1,0 +1,19 @@
+name: Wiki Updates
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Deploy docs to GH Wiki
+      run: |
+        cd ./docs
+        git init
+        git remote add origin $GITHUB_REPOSITORY.wiki.git
+        git add .
+        git commit -m "Update wiki after release"
+        git push -f
