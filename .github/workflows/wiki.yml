@@ -13,7 +13,7 @@ jobs:
       run: |
         cd ./docs
         git init
-        git remote add origin $GITHUB_REPOSITORY.wiki.git
+        git remote add origin git@github.com:$GITHUB_REPOSITORY.wiki.git
         git config user.email "dev@nathanaelcherrier.com"
         git config user.name "Nathanaël Cherrier (CI)"
     - name: Deploy docs to GH Wiki
