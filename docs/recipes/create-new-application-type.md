@@ -1,6 +1,6 @@
 # Create a new Application type
 
-For some project you may want to use your own Application type because any of the existing in *YABF* match your requirements. However if you want to use some generic tools provided by *YABF* you can [inherit from `AbstractApplication`](../api/application/abstract-application.md).
+For some project you may want to use your own Application type because any of the existing in *YABF* match your requirements. However if you want to use some generic tools provided by *YABF* you can [inherit from `AbstractApplication`](abstract-application).
 
 Here is a recipe about "How to create a new Application type".
 
