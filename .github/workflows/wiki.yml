@@ -11,14 +11,22 @@ jobs:
     - uses: actions/checkout@v1
     - name: Init wiki repo
       run: |
-        cd ./docs
+        mkdir wiki
+        cd wiki
         git init
-        git remote add origin git@github.com:$GITHUB_REPOSITORY.wiki.git
+        git remote add origin https://${{ secrets.WIKI_TOKEN }}@github.com/$GITHUB_REPOSITORY.wiki.git
         git config user.email "dev@nathanaelcherrier.com"
         git config user.name "Nathanaël Cherrier (CI)"
+        git pull origin master
+    - name: Clean wiki
+      run: |
+        rm -rf wiki/*
+    - name: Copy docs files
+      run: |
+        cp -R docs/* wiki/ 
     - name: Deploy docs to GH Wiki
       run: |
-        cd ./docs
+        cd wiki
         git add .
         git commit -m "Update wiki after release"
-        git push -f origin master
+        git push origin master
