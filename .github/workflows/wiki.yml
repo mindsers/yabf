@@ -18,6 +18,7 @@ jobs:
         git config user.name "Nathanaël Cherrier (CI)"
     - name: Deploy docs to GH Wiki
       run: |
+        cd ./docs
         git add .
         git commit -m "Update wiki after release"
         git push -f
