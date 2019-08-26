@@ -9,7 +9,7 @@ interface IRoute {
 ```
 ## Description
 
-Represents a route: a single endpoint. A [`Controller`](../controller/controller.md) contains a list of routes.
+Represents a route: a single endpoint. A [`Controller`](controller) contains a list of routes.
 
 ### Exemple
 
