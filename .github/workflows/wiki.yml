@@ -23,8 +23,8 @@ jobs:
         rm -rf wiki/*
     - name: Copy docs files
       run: |
-        # cp -R docs/* wiki/
-        sed -e "s/\(\.\/.*\/(.*)\.md\)/\($1)\)/gm" docs/* > wiki/
+        cp -R docs/* wiki/
+        find . -type f -name "./wiki/*.md" -print0 | xargs -0 sed -e "s/\(\.\/.*\/(.*)\.md\)/\($1)\)/gm"
     - name: Deploy docs to GH Wiki
       run: |
         cd wiki
