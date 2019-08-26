@@ -21,4 +21,4 @@ jobs:
         cd ./docs
         git add .
         git commit -m "Update wiki after release"
-        git push -f
+        git push -f origin master
