@@ -25,7 +25,7 @@ jobs:
       run: |
         cp -R docs/* wiki/
         man sed
-        find wiki -type f -name "*.md" -print0 | xargs -0 sed -i -e "s/\(\.+\/.*\/(.*)\.md\)/\(\1\)/g"
+        find wiki -type f -name "*.md" -print0 | xargs -0 sed -r "s/\(\.+\/.*\/(.*)\.md\)/\(\1\)/g" -i
     - name: Deploy docs to GH Wiki
       run: |
         cd wiki
