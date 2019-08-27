@@ -1,15 +1,18 @@
-name: Wiki Updates
+name: Wiki CD
 
-on: [push]
+on:
+  push:
+    branches:
+    - master
 
 jobs:
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
-    - name: Init wiki repo
+    - name: Init repo
       run: |
         mkdir wiki
         cd wiki
@@ -18,15 +21,14 @@ jobs:
         git config user.email "dev@nathanaelcherrier.com"
         git config user.name "Nathanaël Cherrier (CI)"
         git pull origin master
-    - name: Clean wiki
+    - name: Clean working directory
       run: |
         rm -rf wiki/*
-    - name: Copy docs files
+    - name: Make wiki files from docs files
       run: |
         cp -R docs/* wiki/
-        man sed
         find wiki -type f -name "*.md" -print0 | xargs -0 sed -r "s/\(\.+\/?.*\/(.*)\.md\)/\(\1\)/g" -i
-    - name: Deploy docs to GH Wiki
+    - name: Deploy to GH Wiki
       run: |
         cd wiki
         git add .
